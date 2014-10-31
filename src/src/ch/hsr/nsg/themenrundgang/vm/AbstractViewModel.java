@@ -12,11 +12,9 @@ public class AbstractViewModel {
 
 	private ObjectGraph activityGraph;
 	
-	public AbstractViewModel(Context context)
+	public AbstractViewModel(ObjectGraph graph)
 	{
-		NsgApplication application = (NsgApplication) context.getApplicationContext();
-		
-		activityGraph = application.getApplicationGraph().plus(getModules().toArray());
+		activityGraph = graph.plus(getModules().toArray());
 		activityGraph.inject(this);
 	}
 	
