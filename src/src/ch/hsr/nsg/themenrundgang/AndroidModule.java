@@ -2,8 +2,6 @@ package ch.hsr.nsg.themenrundgang;
 
 import javax.inject.Singleton;
 
-import ch.hsr.nsg.themenrundgang.db.NsgRepository;
-
 import android.content.Context;
 import dagger.Module;
 import dagger.Provides;
