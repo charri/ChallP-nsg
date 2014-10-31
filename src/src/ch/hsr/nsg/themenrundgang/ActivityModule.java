@@ -9,6 +9,7 @@ import ch.hsr.nsg.themenrundgang.model.ItemRepository;
 import ch.hsr.nsg.themenrundgang.view.BaseActivity;
 import ch.hsr.nsg.themenrundgang.view.DetailActivity;
 import ch.hsr.nsg.themenrundgang.view.TestActivity;
+import ch.hsr.nsg.themenrundgang.vm.TestViewModel;
 import dagger.Module;
 import dagger.Provides;
 
@@ -37,7 +38,7 @@ public class ActivityModule {
 		return activity;
 	}
 	
-	@Provides @Singleton ItemRepository provideRepository() {
-	  return new NsgRepository(activity);
+	@Provides @Singleton TestViewModel provideTestViewModel() {
+	  return new TestViewModel(activity);
   }
 }

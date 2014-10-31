@@ -6,13 +6,14 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.EditText;
 import ch.hsr.nsg.themenrundgang.R;
-import ch.hsr.nsg.themenrundgang.model.ItemRepository;
+import ch.hsr.nsg.themenrundgang.vm.TestViewModel;
 
 public class TestActivity extends BaseActivity {
 	@Inject
-	ItemRepository repository;
+	TestViewModel vm;
 
 	@InjectView(R.id.editText1)
 	EditText mEditText;
@@ -23,11 +24,11 @@ public class TestActivity extends BaseActivity {
 		
 		setContentView(R.layout.activity_test);
 		ButterKnife.inject(this);
+	
 		
-		String text = repository.Foo();
-		// repository has been injected
-		
-		mEditText.setText(text);
+		Log.i("ViewModel Foo", vm.getRepository().Foo());
+				
+		mEditText.setText("Much wow");
 	}
 
 }
