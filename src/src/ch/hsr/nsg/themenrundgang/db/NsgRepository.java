@@ -9,9 +9,8 @@ import ch.hsr.nsg.themenrundgang.model.ItemRepository;
 
 public class NsgRepository extends SQLiteOpenHelper implements ItemRepository {
 
-	public NsgRepository(Context context, String name, CursorFactory factory,
-			int version) {
-		super(context, name, factory, version);
+	public NsgRepository(Context context) {
+		super(context, "repo", null, 1);
 	}
 
 	@Override
@@ -30,6 +29,11 @@ public class NsgRepository extends SQLiteOpenHelper implements ItemRepository {
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		
 
+	}
+
+	@Override
+	public String Foo() {
+		return "Test";
 	}
 
 }
