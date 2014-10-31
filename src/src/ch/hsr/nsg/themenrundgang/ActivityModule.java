@@ -4,8 +4,6 @@ import javax.inject.Singleton;
 
 import android.content.Context;
 
-import ch.hsr.nsg.themenrundgang.db.NsgRepository;
-import ch.hsr.nsg.themenrundgang.model.ItemRepository;
 import ch.hsr.nsg.themenrundgang.view.BaseActivity;
 import ch.hsr.nsg.themenrundgang.view.DetailActivity;
 import ch.hsr.nsg.themenrundgang.view.TestActivity;
@@ -21,9 +19,11 @@ import dagger.Provides;
 @Module(injects = { TestActivity.class, DetailActivity.class }, addsTo = AndroidModule.class, library = true)
 public class ActivityModule {
 	private final BaseActivity activity;
+	private final NsgApplication application;
 
 	public ActivityModule(BaseActivity activity) {
 		this.activity = activity;
+		this.application = ((NsgApplication) activity.getApplication());
 	}
 
 	/**
@@ -39,6 +39,6 @@ public class ActivityModule {
 	}
 	
 	@Provides @Singleton TestViewModel provideTestViewModel() {
-	  return new TestViewModel(activity);
+	  return new TestViewModel(application.getApplicationGraph());
   }
 }
