@@ -5,24 +5,18 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="lib" path="libs/estimote-sdk-preview.jar">
+	<classpathentry kind="lib" path="libs/estimote-sdk-preview.jar"/>
+	<classpathentry kind="lib" path="libs/gson-2.3.jar" sourcepath="libs/gson-2.3-sources.jar"/>
+	<classpathentry kind="lib" path="libs/okhttp-2.0.0.jar" sourcepath="libs/okhttp-2.0.0-sources.jar"/>
+	<classpathentry kind="lib" path="libs/okio-1.0.1.jar" sourcepath="libs/okio-1.0.0-sources.jar"/>
+	<classpathentry kind="lib" path="libs/dagger-1.2.2.jar" sourcepath="libs/dagger-1.2.2-sources.jar"/>
+	<classpathentry kind="lib" path="libs/dagger-compiler-1.2.2.jar"/>
+	<classpathentry kind="lib" path="libs/javax.inject-1.jar" sourcepath="libs/javax.inject-1-sources.jar"/>
+	<classpathentry kind="lib" path="libs/javawriter-2.5.0.jar" sourcepath="libs/javax.inject-1-sources.jar"/>
+	<classpathentry kind="lib" path="libs/butterknife-6.0.0.jar"/>
+	<classpathentry kind="src" path=".apt_generated">
 		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/NSGThemenrundgang/libs/estimote-sdk-preview-javadoc.jar!/"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="libs/gson-2.3.jar" sourcepath="libs/gson-2.3-sources.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/NSGThemenrundgang/libs/gson-2.3-javadoc.jar!/"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="libs/okhttp-2.0.0.jar" sourcepath="libs/okhttp-2.0.0-sources.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/NSGThemenrundgang/libs/okhttp-2.0.0-javadoc.jar!/"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="libs/okio-1.0.1.jar" sourcepath="libs/okio-1.0.0-sources.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="jar:platform:/resource/NSGThemenrundgang/libs/okio-1.0.0-javadoc.jar!/"/>
+			<attribute name="optional" value="true"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="output" path="bin/classes"/>

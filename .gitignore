@@ -1,3 +1,7 @@
+#tmp
+*.bak
+*.*~
+
 # Built application files
 *.apk
 *.ap_
@@ -11,6 +15,7 @@
 # Generated files
 bin/
 gen/
+.apt_generated/
 
 # Gradle files
 .gradle/
