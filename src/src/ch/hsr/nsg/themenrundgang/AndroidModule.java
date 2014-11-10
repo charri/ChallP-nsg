@@ -2,6 +2,9 @@ package ch.hsr.nsg.themenrundgang;
 
 import javax.inject.Singleton;
 
+import ch.hsr.nsg.themenrundgang.applicationService.NsgApi;
+import ch.hsr.nsg.themenrundgang.applicationService.NsgApiServiceHttp;
+
 import android.content.Context;
 import dagger.Module;
 import dagger.Provides;
@@ -27,5 +30,7 @@ public class AndroidModule {
     return application;
   }
 
-  
+  @Provides @Singleton @ForApplication NsgApi provideNsgApi() {
+		return new NsgApiServiceHttp();
+	}
 }
