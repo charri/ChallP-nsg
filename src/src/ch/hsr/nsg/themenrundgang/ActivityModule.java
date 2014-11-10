@@ -3,7 +3,6 @@ package ch.hsr.nsg.themenrundgang;
 import javax.inject.Singleton;
 
 import android.content.Context;
-
 import ch.hsr.nsg.themenrundgang.view.BaseActivity;
 import ch.hsr.nsg.themenrundgang.view.DetailActivity;
 import ch.hsr.nsg.themenrundgang.view.TestActivity;
@@ -40,5 +39,7 @@ public class ActivityModule {
 	
 	@Provides @Singleton TestViewModel provideTestViewModel() {
 	  return new TestViewModel(application.getApplicationGraph());
-  }
+	}
+	
+	
 }
