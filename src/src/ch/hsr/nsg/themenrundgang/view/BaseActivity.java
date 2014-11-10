@@ -3,6 +3,8 @@ package ch.hsr.nsg.themenrundgang.view;
 import java.util.Arrays;
 import java.util.List;
 
+import butterknife.ButterKnife;
+
 import ch.hsr.nsg.themenrundgang.ActivityModule;
 import ch.hsr.nsg.themenrundgang.NsgApplication;
 import dagger.ObjectGraph;
@@ -24,6 +26,14 @@ public abstract class BaseActivity extends Activity {
 		activityGraph = nsg.getApplicationGraph().plus(getModules().toArray());
 		
 		activityGraph.inject(this);
+		
+
+	}
+	
+	@Override
+	public void setContentView(int layoutResID) {
+		super.setContentView(layoutResID);
+		ButterKnife.inject(this);
 	}
 
 	@Override

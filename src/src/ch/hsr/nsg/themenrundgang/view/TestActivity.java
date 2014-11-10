@@ -23,8 +23,7 @@ public class TestActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.activity_test);
-		ButterKnife.inject(this);
-	
+			
 		
 		Log.i("ViewModel Foo", vm.getRepository().Foo());
 				
