@@ -27,9 +27,22 @@ public class NsgApiServiceHttp implements NsgApi {
 		gson = new Gson();
 	}
 	
+	private <T> T execute(String url, final Class<T> classOfT)  {
+		Response response;
+		try {
+			response = httpClient.newCall(httpRequest(url)).execute();
+			
+			if(!response.isSuccessful()) return null;
+			
+			return gson.fromJson(response.body().string(), classOfT);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 	private <T> void enqueue(String url, final Class<T> classOfT, final ApiCallback<T> callback) {
-				
+		
 		httpClient.newCall(httpRequest(url)).enqueue(new Callback() {
 
 			@Override
@@ -39,7 +52,10 @@ public class NsgApiServiceHttp implements NsgApi {
 
 			@Override
 			public void onResponse(Response response) throws IOException {
-				if(!response.isSuccessful()) throw new IOException(response.toString());
+				if(!response.isSuccessful()) {
+					callback.failure();
+					throw new IOException(response.toString());
+				}
 				
 				callback.result(gson.fromJson(response.body().string(), classOfT));
 			}
@@ -55,7 +71,7 @@ public class NsgApiServiceHttp implements NsgApi {
 	}
 	
 	@Override
-	public void getItems(ApiCallback<Item[]> callback) {
+	public void getItemsAsync(ApiCallback<Item[]> callback) {
 		
 		if(callback == null) return;
 		
@@ -63,7 +79,7 @@ public class NsgApiServiceHttp implements NsgApi {
 	}
 
 	@Override
-	public void getSubjects(final ApiCallback<Subject[]> callback) {
+	public void getSubjectsAsync(final ApiCallback<Subject[]> callback) {
 		
 		if(callback == null) return;
 		
@@ -71,18 +87,43 @@ public class NsgApiServiceHttp implements NsgApi {
 	}
 
 	@Override
-	public void getBeacons(final ApiCallback<Beacon[]> callback) {
+	public void getBeaconsAsync(final ApiCallback<Beacon[]> callback) {
 		if(callback == null) return;
 		
 		enqueue(BASE + "/beacons", Beacon[].class, callback);		
 	}
 
 	@Override
-	public void getAdditions(final ApiCallback<Addition[]> callback) {
+	public void getAdditionsAsync(final ApiCallback<Addition[]> callback) {
 		
 		if(callback == null) return;
 		
 		enqueue(BASE + "/additions", Addition[].class, callback);
+	}
+
+
+	@Override
+	public Item[] getItems() {
+		
+		return execute(BASE + "/items", Item[].class);
+	}
+
+
+	@Override
+	public Subject[] getSubjects() {
+		return execute(BASE + "/subjects", Subject[].class);
+	}
+
+
+	@Override
+	public Beacon[] getBeacons() {
+		return execute(BASE + "/beacons", Beacon[].class);
+	}
+
+
+	@Override
+	public Addition[] getAdditions() {
+		return execute(BASE + "/additions", Addition[].class);
 	}
 
 }
