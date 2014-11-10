@@ -7,12 +7,20 @@ import ch.hsr.nsg.themenrundgang.model.Subject;
 
 public interface NsgApi {
 	
-	void getItems(ApiCallback<Item[]> callback);
+	Item[] getItems();
 	
-	void getSubjects(ApiCallback<Subject[]> callback);
+	void getItemsAsync(ApiCallback<Item[]> callback);
 	
-	void getBeacons(ApiCallback<Beacon[]> callback);
+	Subject[] getSubjects();
 	
-	void getAdditions(ApiCallback<Addition[]> callback);
+	void getSubjectsAsync(ApiCallback<Subject[]> callback);
+	
+	Beacon[] getBeacons();
+	
+	void getBeaconsAsync(ApiCallback<Beacon[]> callback);
+	
+	Addition[] getAdditions();
+	
+	void getAdditionsAsync(ApiCallback<Addition[]> callback);
 	
 }

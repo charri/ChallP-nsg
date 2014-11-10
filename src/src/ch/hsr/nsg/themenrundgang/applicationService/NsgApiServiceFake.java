@@ -9,8 +9,7 @@ import ch.hsr.nsg.themenrundgang.model.Subject;
 public class NsgApiServiceFake implements NsgApi {
 
 	@Override
-	public void getItems(ApiCallback<Item[]> callback) {
-		if(callback == null) return;
+	public Item[] getItems() {
 		
 		Item[] items = new Item[5];
 		items[0] = newItem(1, "Geologische Karte der Kantone SG, AI, AR", "Unsere Region hat ein vielfältige und zum Teil recht komplexe Geologie. Dies hängt mit ihrer Entstehungsgeschichte zusammen.", new int[] { 1 }, new String[] { "1.0" }, new int[] { 1 });
@@ -19,7 +18,7 @@ public class NsgApiServiceFake implements NsgApi {
 		items[3] = newItem(4, "Tisch mit Bährennahrung", "Bären sind meist Allesfresser, die je nach Art und Jahreszeit in unterschiedlichem Ausmaß pflanzliche und tierische Nahrung zu sich nehmen. ", new int[] { 2 }, new String[] { "2.1" }, new int[] { });
 		items[4] = newItem(5, "Bährenhöhle", "Bären sind Einzelgänger und führen generell eine eher dämmerungs- oder nachtaktive Lebensweise (mit Ausnahme des Eisbären)", new int[] { 2 }, new String[] { "2.1" }, new int[] { });
 		
-		callback.result(items);
+		return items;
 	}
 	
 	private Item newItem(int id, String name, String description, int[] subjects, String[] beacons, int[] images) {
@@ -34,9 +33,8 @@ public class NsgApiServiceFake implements NsgApi {
 	}
 
 	@Override
-	public void getSubjects(ApiCallback<Subject[]> callback) {
+	public Subject[] getSubjects() {
 		
-		if(callback == null) return;
 		
 		Subject[] subjects = new Subject[5];
 		
@@ -45,7 +43,7 @@ public class NsgApiServiceFake implements NsgApi {
 		subjects[2] = newSubject(3, 0, "Menschen", "");
 		subjects[3] = newSubject(4, 0, "Bodenschätze", "");
 		
-		callback.result(subjects);
+		return subjects;
 	}
 	
 	private Subject newSubject(int id, int parentId, String name, String description) {
@@ -58,8 +56,7 @@ public class NsgApiServiceFake implements NsgApi {
 	}
 
 	@Override
-	public void getBeacons(ApiCallback<Beacon[]> callback) {
-		if(callback == null) return;
+	public Beacon[] getBeacons() {
 		
 		Beacon[] beacons = new Beacon[5];
 		
@@ -67,9 +64,8 @@ public class NsgApiServiceFake implements NsgApi {
 		beacons[1] = newBeacon(2, "2.0", 0, 0);
 		beacons[2] = newBeacon(3, "2.1", 0, 0);
 		beacons[3] = newBeacon(4, "2.2", 0, 0);
-		beacons[4] = newBeacon(5, "3.0", 0, 0);
-		
-		callback.result(beacons);		
+		beacons[4] = newBeacon(5, "3.0", 0, 0);	
+		return beacons;
 	}
 	
 	private Beacon newBeacon(int id, String beaconId, int minor, int major) {
@@ -83,15 +79,13 @@ public class NsgApiServiceFake implements NsgApi {
 	}
 
 	@Override
-	public void getAdditions(ApiCallback<Addition[]> callback) {
-		
-		if(callback == null) return;
+	public Addition[] getAdditions() {
 		
 		Addition[] additions = new Addition[1];
 		
 		additions[0] = newAddition(1, 24, "youtube3", "https://www.youtube.com/watch?v=wZZ7oFKsKzY");
 		
-		callback.result(additions);
+		return additions;
 	}
 	
 	private Addition newAddition(int id, int itemId, String key, String value) {
@@ -103,6 +97,26 @@ public class NsgApiServiceFake implements NsgApi {
 		addition.setValue(value);
 		
 		return addition;
+	}
+
+	@Override
+	public void getItemsAsync(ApiCallback<Item[]> callback) {
+		callback.result(getItems());
+	}
+
+	@Override
+	public void getSubjectsAsync(ApiCallback<Subject[]> callback) {
+		callback.result(getSubjects());
+	}
+
+	@Override
+	public void getBeaconsAsync(ApiCallback<Beacon[]> callback) {
+		callback.result(getBeacons());
+	}
+
+	@Override
+	public void getAdditionsAsync(ApiCallback<Addition[]> callback) {
+		callback.result(getAdditions());
 	}
 
 
