@@ -1,7 +1,10 @@
 package ch.hsr.nsg.themenrundgang.model;
 
 public interface ItemRepository {
-	Item getItemByTitle(String title);
+	void insertOrUpdate(Item item);
 	
-	String Foo();
+	Item[] itemsForBeacon(Beacon beacon);
+	
+	Item[] itemsForSubject(Beacon[] beacons, Subject[] subject);
+	
 }

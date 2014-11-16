@@ -36,7 +36,7 @@ public class NsgApiServiceFake implements NsgApi {
 	public Subject[] getSubjects() {
 		
 		
-		Subject[] subjects = new Subject[5];
+		Subject[] subjects = new Subject[4];
 		
 		subjects[0] = newSubject(1, 0, "Gesteine als Untergrund", "");
 		subjects[1] = newSubject(2, 0, "Bären", "");
