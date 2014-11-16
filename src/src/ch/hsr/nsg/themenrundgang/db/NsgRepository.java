@@ -104,8 +104,41 @@ public class NsgRepository
 
 	@Override
 	public Subject[] allSubjectsByParent(Subject parent) {
-		// TODO Auto-generated method stub
-		return null;
+		// parent may be null!
+		
+		StringBuilder sqlBuilder = new StringBuilder();
+		
+		sqlBuilder.append("SELECT "+ TABLE_SUBJECT + ".* FROM " + TABLE_SUBJECT);
+		sqlBuilder.append(" WHERE ");
+		if(parent == null) {
+			sqlBuilder.append("parentId = 0");
+		} else {
+			sqlBuilder.append("parentId = " + parent.getId());
+		}
+		
+		SQLiteDatabase db = getReadableDatabase();
+		
+		Cursor cursor = db.rawQuery(sqlBuilder.toString(), null);
+		
+		List<Subject> subjects = new ArrayList<Subject>();
+		
+		while(cursor.moveToNext()) {
+			Subject subject = new Subject();
+			subject.setId(cursor.getInt(cursor.getColumnIndex("id")));	
+			subject.setName(cursor.getString(cursor.getColumnIndex("name")));
+			subject.setDescription(cursor.getString(cursor.getColumnIndex("description")));
+			if(cursor.isNull(cursor.getColumnIndex("parentId"))) {
+				subject.setParentId(0);
+			} else {
+				subject.setParentId(cursor.getInt(cursor.getColumnIndex("parentId")));
+			}
+			subjects.add(subject);
+		}
+		
+		cursor.close();
+		db.close();
+		
+		return subjects.toArray(new Subject[0]);
 	}
 
 	@Override
@@ -144,11 +177,39 @@ public class NsgRepository
 			db.insert(TABLE_ITEM_SUBJECT, null, subjectValues);
 		}
 	}
+	
+	private Item[] toItems(StringBuilder sqlBuilder) {
+		SQLiteDatabase db = getReadableDatabase();
+		
+		Cursor cursor = db.rawQuery(sqlBuilder.toString(), null);
+		
+		List<Item> items = new ArrayList<Item>();
+		
+		while(cursor.moveToNext()) {
+			Item item = new Item();
+			item.setName(cursor.getString(cursor.getColumnIndex("name")));
+			item.setDescription(cursor.getString(cursor.getColumnIndex("description")));
+			item.setId(cursor.getInt(cursor.getColumnIndex("id")));
+			items.add(item);
+		}
+		
+		cursor.close();
+		db.close();
+		
+		return items.toArray(new Item[0]);
+	}
 
 	@Override
 	public Item[] itemsForBeacon(Beacon beacon) {
-		// TODO Auto-generated method stub
-		return null;
+	
+		StringBuilder sqlBuilder = new StringBuilder();
+		
+		sqlBuilder.append("SELECT "+ TABLE_ITEM + ".* FROM " + TABLE_ITEM);
+		sqlBuilder.append(" INNER JOIN " + TABLE_ITEM_BEACON + " ON ( " + TABLE_ITEM + ".id = " + TABLE_ITEM_BEACON + ".itemId ) ");
+		sqlBuilder.append(" WHERE ");
+		sqlBuilder.append(FUNC_Beacon.func(beacon));
+				
+		return toItems(sqlBuilder);
 	}
 	
 	private final static StringUtils.Func<Beacon> FUNC_Beacon = new StringUtils.Func<Beacon>() {
@@ -167,7 +228,6 @@ public class NsgRepository
 
 	@Override
 	public Item[] itemsForSubject(Beacon[] beacons, Subject[] subject) {
-		SQLiteDatabase db = getReadableDatabase();
 		
 		StringBuilder sqlBuilder = new StringBuilder();
 		
@@ -179,22 +239,8 @@ public class NsgRepository
 		sqlBuilder.append(" AND ");
 		sqlBuilder.append("( " + StringUtils.join(subject, FUNC_Subject, " OR ") + ") ");
 				
-		Cursor cursor = db.rawQuery(sqlBuilder.toString(), null);
+		return toItems(sqlBuilder);
 		
-		List<Item> items = new ArrayList<Item>();
-		
-		while(cursor.moveToNext()) {
-			Item item = new Item();
-			item.setName(cursor.getString(cursor.getColumnIndex("name")));
-			item.setDescription(cursor.getString(cursor.getColumnIndex("description")));
-			item.setId(cursor.getInt(cursor.getColumnIndex("id")));
-			items.add(item);
-		}
-		
-		cursor.close();
-		db.close();
-		
-		return items.toArray(new Item[0]);
 	}
 
 	@Override
@@ -238,7 +284,7 @@ public class NsgRepository
 		contentValues.put("a_key", addition.getKey());
 		contentValues.put("a_value", addition.getValue());
 		
-		insertOrUpdate(TABLE_BEACON, String.valueOf(addition.getId()), contentValues);
+		insertOrUpdate(TABLE_ADDITION, String.valueOf(addition.getId()), contentValues);
 	}
 
 	@Override

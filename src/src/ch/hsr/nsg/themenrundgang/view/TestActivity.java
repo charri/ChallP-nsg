@@ -23,10 +23,7 @@ public class TestActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.activity_test);
-			
-		
-		Log.i("ViewModel Foo", vm.getRepository().Foo());
-				
+							
 		mEditText.setText("Much wow");
 	}
 
