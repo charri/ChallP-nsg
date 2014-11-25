@@ -2,5 +2,8 @@
 <resources>
 
     <string name="app_name">TestTest</string>
+    <string name="title_activity_monitor_activity__test">MonitorActivity_Test</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>
