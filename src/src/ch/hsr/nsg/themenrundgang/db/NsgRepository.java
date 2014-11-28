@@ -9,18 +9,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import ch.hsr.nsg.themenrundgang.model.Addition;
-import ch.hsr.nsg.themenrundgang.model.AdditionRepository;
 import ch.hsr.nsg.themenrundgang.model.Beacon;
-import ch.hsr.nsg.themenrundgang.model.BeaconRepository;
 import ch.hsr.nsg.themenrundgang.model.Item;
-import ch.hsr.nsg.themenrundgang.model.ItemRepository;
+import ch.hsr.nsg.themenrundgang.model.Repositories;
 import ch.hsr.nsg.themenrundgang.model.Subject;
-import ch.hsr.nsg.themenrundgang.model.SubjectRepository;
 import ch.hsr.nsg.themenrundgang.utils.StringUtils;
 
 public class NsgRepository 
 	extends SQLiteOpenHelper 
-	implements AdditionRepository, BeaconRepository, ItemRepository, SubjectRepository {
+	implements Repositories {
 
 	private static final String DB_NAME = "nsg.db";
 	private static final int DB_VERSION = 1;
