@@ -2,5 +2,6 @@
 
     <string name="app_name">Naturkundemuseum St. Gallen Themenrundgang</string>
     <string name="action_search">Suchen</string>
+    <string name="detail_activity_missing_parameter_msg">Kein Exponat ausgewählt</string>
 
 </resources>

@@ -7,4 +7,6 @@ public interface ItemRepository {
 	
 	Item[] itemsForSubject(Beacon[] beacons, Subject[] subject);
 	
+	Item itemById(int id);
+	
 }

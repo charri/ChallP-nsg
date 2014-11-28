@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.widget.Toast;
 import android.widget.Toolbar;
 import butterknife.InjectView;
 import ch.hsr.nsg.themenrundgang.R;
@@ -30,13 +31,21 @@ public class DetailActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		
-		Subject[] subjects = viewModel.allSubjects();
-		
-		setContentView(R.layout.detail_view);
-		if(mToolbar != null) {
-			setActionBar(mToolbar);
+		try {
+			viewModel.setItemById(getIntent().getExtras().getInt("itemId"));
+			setContentView(R.layout.detail_view);
+			if(mToolbar != null) {
+				setActionBar(mToolbar);
+				mToolbar.setTitle(viewModel.getItem().getName());
+			}
 		}
+		catch(Exception e) {
+			Toast.makeText(getApplicationContext(), R.string.detail_activity_missing_parameter_msg, Toast.LENGTH_SHORT).show();
+			finish();
+		}
+		
+		
+		
 	};
 	
 	

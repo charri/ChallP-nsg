@@ -262,7 +262,7 @@ public class NsgRepository
 	public Beacon beaconById(String beaconId) {
 		SQLiteDatabase db = getReadableDatabase();
 		
-		Cursor cursor = db.query(TABLE_BEACON, null, "", new String[] { }, null, null, null);
+		Cursor cursor = db.query(TABLE_BEACON, null, "beaconId=?", new String[] {beaconId }, null, null, null);
 		
 		if(!cursor.moveToFirst()) return null;
 		
@@ -311,6 +311,23 @@ public class NsgRepository
 		db.close();
 		
 		return additions.toArray(new Addition[0]);
+	}
+
+	@Override
+	public Item itemById(int id) {
+		SQLiteDatabase db = getReadableDatabase();
+		
+		Cursor cursor = db.query(TABLE_ITEM, null, "id=?", new String[] {Integer.valueOf(id).toString() }, null, null, null);
+		
+		if(!cursor.moveToFirst()) return null;
+		
+		Item item = new Item();
+		
+		item.setName(cursor.getString(cursor.getColumnIndex("name")));
+		item.setDescription(cursor.getString(cursor.getColumnIndex("description")));
+		item.setId(cursor.getInt(cursor.getColumnIndex("id")));
+				
+		return item; 
 	}
 
 }

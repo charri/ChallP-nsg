@@ -39,12 +39,9 @@ public class DetailViewModel extends AbstractViewModel {
 	public Item getItem() {
 		return item;
 	}
-
-
-
-
-	public void setItem(Item item) {
-		this.item = item;
+	
+	public void setItemById(int id) {
+		item = itemRepo.itemById(id);
 	}
 	
 }
