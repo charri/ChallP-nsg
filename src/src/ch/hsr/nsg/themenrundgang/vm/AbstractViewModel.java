@@ -10,15 +10,17 @@ import android.content.Context;
 
 public class AbstractViewModel {
 
-	private ObjectGraph activityGraph;
+	private final ObjectGraph activityGraph;
+	private final Context context;
 	
-	public AbstractViewModel(ObjectGraph graph)
+	public AbstractViewModel(Context context, ObjectGraph graph)
 	{
+		this.context = context;
 		activityGraph = graph.plus(getModules().toArray());
 		activityGraph.inject(this);
 	}
 	
 	protected List<Object> getModules() {
-		return Arrays.<Object> asList(new ViewModelModule());
+		return Arrays.<Object> asList(new ViewModelModule(context));
 	}
 }

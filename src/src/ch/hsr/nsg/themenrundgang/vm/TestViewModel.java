@@ -12,8 +12,8 @@ public class TestViewModel extends AbstractViewModel {
 	@Inject
 	ItemRepository repository;
 	
-	public TestViewModel(ObjectGraph graph) {
-		super(graph);
+	public TestViewModel(Context context, ObjectGraph graph) {
+		super(context, graph);
 	}
 	
 	public ItemRepository getRepository() {

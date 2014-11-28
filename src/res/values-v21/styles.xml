@@ -1,15 +1,11 @@
 <resources>
 
-    <color name="primary">#ff55601c</color>
-    <color name="primary_dark">#ff003470</color>
-   
-    <style name="AppBaseTheme" parent="android:Theme.Material">
-
-        <!-- App Bar -->
-        <item name="android:colorPrimary">@color/primary</item>
-        <!-- Status bar, Contextual App Bars -->
-        <item name="android:colorPrimaryDark">@color/primary_dark</item>
-        
+    <style name="AppTheme" parent="AppThemeBase">
+		<item name="android:windowContentTransitions">true</item>
+	    <item name="android:windowAllowEnterTransitionOverlap">true</item>
+	    <item name="android:windowAllowReturnTransitionOverlap">true</item>
+	    <item name="android:windowSharedElementEnterTransition">@android:transition/move</item>
+	    <item name="android:windowSharedElementExitTransition">@android:transition/move</item>
     </style>
 
 </resources>

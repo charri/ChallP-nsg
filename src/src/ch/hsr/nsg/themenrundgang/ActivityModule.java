@@ -6,6 +6,7 @@ import android.content.Context;
 import ch.hsr.nsg.themenrundgang.view.BaseActivity;
 import ch.hsr.nsg.themenrundgang.view.DetailActivity;
 import ch.hsr.nsg.themenrundgang.view.TestActivity;
+import ch.hsr.nsg.themenrundgang.vm.DetailViewModel;
 import ch.hsr.nsg.themenrundgang.vm.TestViewModel;
 import dagger.Module;
 import dagger.Provides;
@@ -38,7 +39,11 @@ public class ActivityModule {
 	}
 	
 	@Provides @Singleton TestViewModel provideTestViewModel() {
-	  return new TestViewModel(application.getApplicationGraph());
+	  return new TestViewModel(activity, application.getApplicationGraph());
+	}
+	
+	@Provides @Singleton DetailViewModel provideDetailViewModel() {
+		return new DetailViewModel(activity, application.getApplicationGraph());
 	}
 	
 	

@@ -2,19 +2,13 @@
   
     <color name="primary">#ff55601c</color>
     <color name="primary_dark">#ff003470</color>
-   
-    <style name="AppBaseTheme" parent="android:Theme.Material">
-
-        <!-- App Bar -->
+    <style name="AppThemeBase" parent="android:Theme.Material">
         <item name="android:colorPrimary">@color/primary</item>
-        <!-- Status bar, Contextual App Bars -->
         <item name="android:colorPrimaryDark">@color/primary_dark</item>
-        
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
     </style>
 
-    <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
-        
-    </style>
+    <style name="AppTheme" parent="AppBaseTheme"></style>
 
 </resources>
