@@ -21,11 +21,14 @@
         <service
             android:name="com.estimote.sdk.service.BeaconService"
             android:exported="false" />
+    	<service
+			android:name=".monitor.BeaconScannerFake"
+            android:exported="false" />
 
         <activity android:name=".view.TestActivity" >
         </activity>
         <activity
-            android:name="ch.hsr.nsg.themenrundgang.view.ListBeaconsActivity"
+            android:name=".monitor.ExampleListBeaconsActivity"
             android:label="@string/title_activity_list_beacons" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

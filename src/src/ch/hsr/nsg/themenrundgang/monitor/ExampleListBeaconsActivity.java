@@ -1,4 +1,4 @@
-package ch.hsr.nsg.themenrundgang.view;
+package ch.hsr.nsg.themenrundgang.monitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,16 +12,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import ch.hsr.nsg.themenrundgang.R;
-import ch.hsr.nsg.themenrundgang.monitor.BeaconMonitor;
-import ch.hsr.nsg.themenrundgang.monitor.FakeBeaconMonitor;
-import ch.hsr.nsg.themenrundgang.monitor.MonitorReadyCallback;
-import ch.hsr.nsg.themenrundgang.monitor.MonitoringListenerCallback;
-import ch.hsr.nsg.themenrundgang.monitor.Region;
 
-public class ListBeaconsActivity extends Activity {
+public class ExampleListBeaconsActivity extends Activity {
 	private BeaconMonitor beaconMonitor;
 
-	private final Handler myHandler = new Handler();
+	private final Handler listUpdateHandler = new Handler();
 	private ListView mListView;
 	private ArrayAdapter<String> adapter;
 	private final ArrayList<String> beaconList = new ArrayList<String>();
@@ -36,7 +31,6 @@ public class ListBeaconsActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		this.beaconMonitor = new FakeBeaconMonitor();
 		initializeAllBeaconRegions();
 		initializeAllLocationRegions();
 		/*try {
@@ -57,9 +51,11 @@ public class ListBeaconsActivity extends Activity {
 	@Override
 	protected void onStart() {
 		super.onStart();
+
+		beaconList.clear();
 		
+		this.beaconMonitor = new BeaconMonitorFake(this);
 		beaconMonitor.setMonitoringListener(new BeaconListener());
-		
 		beaconMonitor.connect(new MonitorReadyCallback() {
 			@Override
 			public void onServiceReady() {
@@ -128,10 +124,8 @@ public class ListBeaconsActivity extends Activity {
 			if (listItem != null) {
 				if (removing) {
 					beaconList.remove(listItem);
-					Log.i("onExitRegion", listItem);
 				} else {
 					beaconList.add(listItem);
-					Log.i("onEnterRegion", listItem);
 				}
 				adapter.notifyDataSetChanged();
 			}
@@ -143,14 +137,14 @@ public class ListBeaconsActivity extends Activity {
 		@Override
 		public void onEnterRegion(Region region) {
 			if (region.getMinor() != null) {
-				myHandler.post(new ListUpdater(region.toString(), false));
+				listUpdateHandler.post(new ListUpdater(region.toString(), false));
 			}
 		}
 		
 		@Override
 		public void onExitRegion(Region region) {
 			if (region.getMinor() != null) {
-				myHandler.post(new ListUpdater(region.toString(), true));
+				listUpdateHandler.post(new ListUpdater(region.toString(), true));
 			}
 		}
 	}

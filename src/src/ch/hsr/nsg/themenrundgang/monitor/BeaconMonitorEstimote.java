@@ -9,11 +9,11 @@ import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.BeaconManager.MonitoringListener;
 import com.estimote.sdk.BeaconManager.ServiceReadyCallback;
 
-public class EstimoteBeaconMonitor implements BeaconMonitor {
+public class BeaconMonitorEstimote implements BeaconMonitor {
 	
 	BeaconManager beaconManager;
 	
-	public EstimoteBeaconMonitor(Context context) {
+	public BeaconMonitorEstimote(Context context) {
 		beaconManager = new BeaconManager(context);
 	}
 

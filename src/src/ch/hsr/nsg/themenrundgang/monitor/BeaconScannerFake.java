@@ -3,9 +3,13 @@ package ch.hsr.nsg.themenrundgang.monitor;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Service;
+import android.content.Intent;
+import android.os.Binder;
+import android.os.IBinder;
 import ch.hsr.nsg.themenrundgang.model.Beacon;
 
-public class BeaconUpdateSimulator {
+public class BeaconScannerFake extends Service {
 	private final static int SCAN_INTERVALL = 2500;
 	private final static int MIN_SCANS_FOR_BEACONS_UPDATE = 1;
 	private final static int MAX_SCANS_FOR_BEACONS_UPDATE = 2;
@@ -17,40 +21,31 @@ public class BeaconUpdateSimulator {
 	private final static int[] NOF_BEACONS_PER_LOCATION = {1, 3, 2, 2, 2, 4};
 	private final static double ENTERED_LOCATION_WEIGHT	= 0.7;
 
-	private final Thread monitorUpdater;
+	private Thread monitorUpdater;
 	
 	private List<Beacon> monitoredBeacons = new ArrayList<Beacon>();
 	private List<Integer> sortedLocationIds = new ArrayList<Integer>();
 	
-	private List<FakeBeaconMonitor> listeningBeaconMonitors = new ArrayList<FakeBeaconMonitor>();
+	private List<BeaconMonitorFake> listeningBeaconMonitors = new ArrayList<BeaconMonitorFake>();
 	
 	private boolean running = false;
 	
-	protected BeaconUpdateSimulator() {
-		monitorUpdater = new Thread(new MonitorUpdater());
-		updateLocations();
-	}
-	
-	protected void registerBeaconMonitor(FakeBeaconMonitor listener) {
+	protected void registerBeaconMonitor(BeaconMonitorFake listener) {
 		listeningBeaconMonitors.add(listener);
-		
-		if (!monitorUpdater.isAlive()) {
-			monitorUpdater.start();
-		} else if (!running) {
-			monitorUpdater.notify();
-		}
-		running = true;
 	}
 	
-	protected void unregisterBeaconMonitor(FakeBeaconMonitor listener) {
+	protected void unregisterBeaconMonitor(BeaconMonitorFake listener) {
 		listeningBeaconMonitors.remove(listener);
 		
 		if (listeningBeaconMonitors.size() == 0) {
-			try {
+			BeaconMonitorFake.resetSimulator();
+			
+			
+			/*try {
 				monitorUpdater.wait();
 			} catch (InterruptedException e) {
 		         monitorUpdater.interrupt(); 
-			}
+			}*/
 			running = false;
 		}
 	}
@@ -80,8 +75,8 @@ public class BeaconUpdateSimulator {
 			List<Beacon> monitoredBeaconsBefore = this.monitoredBeacons;
 			this.monitoredBeacons = new ArrayList<Beacon>();
 			if (this.monitoredBeacons.size() > 0) {
-				FakeBeaconMonitor.updateMonitor(monitoredBeaconsBefore, this.monitoredBeacons);
-				for (FakeBeaconMonitor listener : listeningBeaconMonitors) {
+				BeaconMonitorFake.updateMonitor(monitoredBeaconsBefore, this.monitoredBeacons);
+				for (BeaconMonitorFake listener : listeningBeaconMonitors) {
 					listener.makeListenerCalls();
 				}
 			}
@@ -95,8 +90,8 @@ public class BeaconUpdateSimulator {
 			monitoredBeacons.addAll(updateBeaconsOutsideLocation(nofDetectedBeacons - beaconsInEnteredLocation));
 			List<Beacon> monitoredBeaconsBefore = this.monitoredBeacons;
 			this.monitoredBeacons = monitoredBeacons;
-			FakeBeaconMonitor.updateMonitor(monitoredBeaconsBefore, this.monitoredBeacons);
-			for (FakeBeaconMonitor listener : listeningBeaconMonitors) {
+			BeaconMonitorFake.updateMonitor(monitoredBeaconsBefore, this.monitoredBeacons);
+			for (BeaconMonitorFake listener : listeningBeaconMonitors) {
 				listener.makeListenerCalls();
 			}
 		}
@@ -174,5 +169,45 @@ public class BeaconUpdateSimulator {
 				}
 			}
 		}
+	}
+	
+	@Override
+	public void onCreate() {
+		updateLocations();
+		
+		this.monitorUpdater = new Thread(new MonitorUpdater());
+		monitorUpdater.start();
+		
+		running = true;
+	}
+	
+	@Override
+	public int onStartCommand(Intent intent, int flags, int startId) {
+		return Service.START_STICKY;
+	}
+
+	@Override
+	public IBinder onBind(Intent intent) {
+		return new BeaconScannerBinder();
+	}
+	
+	@Override
+	public boolean onUnbind(Intent intent) {
+		/*if (listeningBeaconMonitors.size() == 0) {
+			
+		}*/
+		
+		boolean onRebindCalled = true;
+		return onRebindCalled;
+	}
+	
+	protected class BeaconScannerBinder extends Binder {
+		protected BeaconScannerFake getScanner() {
+			return BeaconScannerFake.this;
+		}
+		/*
+		protected void registerMonitor(BeaconMonitorFake listener) {
+			BeaconScannerFake.this.listeningBeaconMonitors.add(listener);
+		}*/
 	}
 }
