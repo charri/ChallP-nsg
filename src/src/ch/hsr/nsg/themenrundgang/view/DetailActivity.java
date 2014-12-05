@@ -31,7 +31,8 @@ public class DetailActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		try {
+		setContentView(R.layout.detail_view);
+		/*try {
 			viewModel.setItemById(getIntent().getExtras().getInt("itemId"));
 			setContentView(R.layout.detail_view);
 			if(mToolbar != null) {
@@ -42,7 +43,7 @@ public class DetailActivity extends BaseActivity {
 		catch(Exception e) {
 			Toast.makeText(getApplicationContext(), R.string.detail_activity_missing_parameter_msg, Toast.LENGTH_SHORT).show();
 			finish();
-		}
+		}*/
 		
 		
 		
