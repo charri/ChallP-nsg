@@ -2,6 +2,7 @@ package ch.hsr.nsg.themenrundgang;
 
 import javax.inject.Singleton;
 
+import android.app.Activity;
 import android.content.Context;
 import ch.hsr.nsg.themenrundgang.view.BaseActivity;
 import ch.hsr.nsg.themenrundgang.view.DetailActivity;
@@ -18,12 +19,12 @@ import dagger.Provides;
  */
 @Module(injects = { TestActivity.class, DetailActivity.class }, addsTo = AndroidModule.class, library = true)
 public class ActivityModule {
-	private final BaseActivity activity;
+	private final Activity activity;
 	private final NsgApplication application;
 
-	public ActivityModule(BaseActivity activity) {
-		this.activity = activity;
-		this.application = ((NsgApplication) activity.getApplication());
+	public ActivityModule(InjectionProvider provider) {
+		this.activity = provider.getActivity();
+		this.application = provider.getNsgApplication();
 	}
 
 	/**

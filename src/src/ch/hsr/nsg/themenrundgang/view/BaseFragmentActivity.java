@@ -3,19 +3,20 @@ package ch.hsr.nsg.themenrundgang.view;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import ch.hsr.nsg.themenrundgang.InjectionHelper;
 import ch.hsr.nsg.themenrundgang.InjectionProvider;
 import ch.hsr.nsg.themenrundgang.NsgApplication;
 
-public abstract class BaseActivity extends Activity implements InjectionProvider {
+public abstract class BaseFragmentActivity extends FragmentActivity implements InjectionProvider {
 
-	private final InjectionHelper helper;
 	
-	public BaseActivity(){
+	private InjectionHelper helper;
+	
+	public BaseFragmentActivity() {
 		helper = new InjectionHelper();
 	}
 	
-	@Override
 	public Activity getActivity() {
 		return this;
 	}
@@ -48,4 +49,6 @@ public abstract class BaseActivity extends Activity implements InjectionProvider
 	public void inject(Object object) {
 		helper.injectImpl(object);
 	}
+
 }
+

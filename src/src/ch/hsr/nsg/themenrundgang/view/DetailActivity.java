@@ -3,22 +3,17 @@ package ch.hsr.nsg.themenrundgang.view;
 import javax.inject.Inject;
 
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.widget.Toast;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.widget.TextView;
 import android.widget.Toolbar;
 import butterknife.InjectView;
 import ch.hsr.nsg.themenrundgang.R;
-import ch.hsr.nsg.themenrundgang.applicationService.NsgApi;
-import ch.hsr.nsg.themenrundgang.applicationService.NsgApiServiceFake;
-import ch.hsr.nsg.themenrundgang.db.NsgRepository;
-import ch.hsr.nsg.themenrundgang.model.Addition;
-import ch.hsr.nsg.themenrundgang.model.Beacon;
-import ch.hsr.nsg.themenrundgang.model.Item;
-import ch.hsr.nsg.themenrundgang.model.Subject;
 import ch.hsr.nsg.themenrundgang.vm.DetailViewModel;
 
-public class DetailActivity extends BaseActivity {
+public class DetailActivity extends BaseFragmentActivity {
 
 	@Inject
 	DetailViewModel viewModel;
@@ -27,11 +22,46 @@ public class DetailActivity extends BaseActivity {
 	@InjectView(R.id.toolbar)
 	Toolbar mToolbar;
 	
+	@InjectView(R.id.pager)
+	ViewPager mPager;
+	
+	@InjectView(R.id.detail_image_caption)
+	TextView mImageCaption;
+	
+	private PagerAdapter mPagerAdapter;
+	private static final int NUM_PAGES = 2;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		setContentView(R.layout.detail_view);
+		setContentView(R.layout.activity_detail);
+		setActionBar(mToolbar);
+		mToolbar.setTitle("Braunbär");
+		
+		mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        mPager.setAdapter(mPagerAdapter);
+        mPager.setOnPageChangeListener(new OnPageChangeListener() {
+			
+			@Override
+			public void onPageSelected(int arg0) {
+				updateImageCaption(arg0 + 1);
+			}
+			
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onPageScrollStateChanged(int arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+        updateImageCaption(1);
+        
 		/*try {
 			viewModel.setItemById(getIntent().getExtras().getInt("itemId"));
 			setContentView(R.layout.detail_view);
@@ -49,6 +79,9 @@ public class DetailActivity extends BaseActivity {
 		
 	};
 	
+	private void updateImageCaption(int page) {
+		mImageCaption.setText("Bild " + page + " von " + NUM_PAGES);
+	}
 	
 	/*@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -57,6 +90,21 @@ public class DetailActivity extends BaseActivity {
 	    return super.onCreateOptionsMenu(menu);
 	}*/
 	
+	private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+        public ScreenSlidePagerAdapter(android.support.v4.app.FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public android.support.v4.app.Fragment getItem(int position) {
+            return new ImagePageFragment(position);
+        }
+
+        @Override
+        public int getCount() {
+            return NUM_PAGES;
+        }
+    }
 	
 	
 }
