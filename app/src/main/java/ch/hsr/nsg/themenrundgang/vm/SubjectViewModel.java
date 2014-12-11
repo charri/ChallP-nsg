@@ -1,7 +1,6 @@
 package ch.hsr.nsg.themenrundgang.vm;
 
 import java.util.ArrayList;
-import java.util.Observable;
 
 import ch.hsr.nsg.themenrundgang.applicationService.NsgApi;
 import ch.hsr.nsg.themenrundgang.model.Subject;
@@ -19,7 +18,15 @@ public class SubjectViewModel extends AbstractViewModel {
         return subjects;
     }
 
-    public int getSubjectsChecked() {
+    public Subject[] getSubjectsChecked() {
+        ArrayList<Subject> rValue = new ArrayList<>();
+        for(UiSubject s : subjects) {
+            if(s.isChecked())  rValue.add(s);
+        }
+        return rValue.toArray(new Subject[0]);
+    }
+
+    public int getSubjectsCheckedCount() {
         int selected = 0;
         for(UiSubject s : subjects) {
             if(s.isChecked()) ++selected;

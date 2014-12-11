@@ -6,6 +6,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.widget.Toolbar;
+
+import com.viewpagerindicator.LinePageIndicator;
 
 import javax.inject.Inject;
 
@@ -23,22 +26,30 @@ public class TutorialActivity extends InjectingFragmentActivity {
 
 	@InjectView(R.id.pager)
 	ViewPager mPager;
+
+    @InjectView(R.id.toolbar)
+    Toolbar mToolbar;
 	
 	private PagerAdapter mPagerAdapter;
 
 	private NsgSyncTaskUi task;
+
+    @InjectView(R.id.indicator)
+    LinePageIndicator indicator;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_tutorial);
+        mToolbar.inflateMenu(R.menu.menu_empty);
 
 		mPagerAdapter = new TutorialPagerAdapter(getSupportFragmentManager());
 		
 		mPager.setPageTransformer(true, new DepthPageTransformer());
-		mPager.setAdapter(mPagerAdapter); 
-			
+		mPager.setAdapter(mPagerAdapter);
+        indicator.setViewPager(mPager);
 		
 		task = new NsgSyncTaskUi();
 		task.execute();
@@ -59,7 +70,7 @@ public class TutorialActivity extends InjectingFragmentActivity {
 
 		@Override
 		protected void onPostExecute(Void result) {
-			// TODO:
+
 		}
 	}
 

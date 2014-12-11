@@ -2,13 +2,20 @@
 
     <string name="app_name">Naturmuseum St. Gallen</string>
     <string name="action_search">Suchen</string>
-    <string name="action_next">Weiter ➭</string>
+    <string name="action_next">Weiter</string>
     <string name="detail_activity_missing_parameter_msg">Kein Exponat ausgewählt</string>
 
     <string name="activity_subjects">Themen</string>
+    <string name="activity_tutorial">Willkommen</string>
 
     <string name="subject_info_card_title">Welche Themen interessieren Dich?</string>
     <string name="subject_info_card_info">Du kannst jederzeit hierhin zurückkehren und deine Auswahl anpassen.</string>
     <string name="subject_info_card_selected">%1$d von %2$d ausgewählt</string>
+
+    <string name="tutorial_info_title">Willkommen zum Themenrundgang!</string>
+    <string name="tutorial_info_text">Diese App hilft Dir dabei, Dich noch besser in unserem Museum zurechtzufinden. \n\nWähle Deine Lieblingsthemen und wir zeigen Dir interessante Hintergrundinformationen - je nach dem wo Du gerade bist!</string>
+
+    <string name="tutorial_subjects_title">Themen auswählen</string>
+    <string name="tutorial_subjects_text">Wähle aus, zu welchen Themen Du Zusatzinformationen sehen möchtest. Du kannst die Themen auch später jederzeit ändern.</string>
 
 </resources>

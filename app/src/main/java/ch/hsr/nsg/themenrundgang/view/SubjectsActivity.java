@@ -1,17 +1,17 @@
 package ch.hsr.nsg.themenrundgang.view;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toolbar;
+
+import com.joanzapata.android.iconify.IconDrawable;
+import com.joanzapata.android.iconify.Iconify;
 
 import javax.inject.Inject;
 
@@ -33,13 +33,16 @@ public class SubjectsActivity extends InjectingActivity {
     @InjectView(R.id.subject_info_card_selected)
     TextView mInfoCardSelected;
 
-    MenuItem mMenuNext;
-
     @Inject
     SubjectViewModel viewModel;
 
     @InjectView(R.id.hideable)
     RelativeLayout mHideable;
+
+    @InjectView(R.id.toolbar)
+    Toolbar mToolbar;
+    @InjectView(R.id.btnNext)
+    TextView mMenuNext;
 
     AnimationUtils mAnimationUtils;
     Animation mAnimationReduce;
@@ -54,9 +57,13 @@ public class SubjectsActivity extends InjectingActivity {
 		
 		setContentView(R.layout.activity_subjects);
 
+        mMenuNext.setCompoundDrawables(null, null, new IconDrawable(this, Iconify.IconValue.fa_arrow_right)
+                .colorRes(android.R.color.white)
+                .actionBarSize(), null);
+
         mAnimationUtils = new AnimationUtils(SubjectsActivity.this);
         mAnimationReduce = mAnimationUtils.makeAnimation(mRecyclerView, 0, -70, 55);
-        mAnimationExpand = mAnimationUtils.makeAnimation(mRecyclerView, 0, 70, 130);
+        mAnimationExpand = mAnimationUtils.makeAnimation(mRecyclerView, 0, 70, 135);
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
@@ -77,48 +84,27 @@ public class SubjectsActivity extends InjectingActivity {
         mRecyclerView.setAdapter(getObjectGraph().get(SubjectAdapter.class));
 
         mInfoCardSelected.setText(getSubjectsText());
+        mMenuNext.setVisibility(View.GONE);
 
         addOnListener(SubjectViewModel.KEY_SUBJECTS, new OnListener() {
             @Override
             public void onNotify() {
                 mInfoCardSelected.setText(getSubjectsText());
-                if (mMenuNext != null) {
-                    mMenuNext.setEnabled(viewModel.getSubjectsChecked() > 0);
-                }
+                mMenuNext.setVisibility(viewModel.getSubjectsCheckedCount() > 0 ? View.VISIBLE : View.GONE);
             }
+
         });
 	}
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_subjects, menu);
-
-        mMenuNext = menu.findItem(R.id.action_next);
-
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
-            case R.id.action_next:
-                //TODO: Start ItemsActivity
-                return true;
-            default: return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 
     private String getSubjectsText() {
         return  String.format(
                 getResources().getString(R.string.subject_info_card_selected),
-                viewModel.getSubjectsChecked(),
+                viewModel.getSubjectsCheckedCount(),
                 viewModel.getSubjects().size());
+    }
+    @OnClick(R.id.btnNext)
+    public void OnNextClick() {
+        startActivity(ItemsActivity.getIntent(this, viewModel.getSubjectsChecked()));
     }
 
     @OnClick(R.id.subject_info_card_selected)

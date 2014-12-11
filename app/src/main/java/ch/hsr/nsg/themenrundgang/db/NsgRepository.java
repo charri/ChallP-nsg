@@ -304,7 +304,34 @@ public class NsgRepository
 		return beacon;
 	}
 
-	@Override
+    @Override
+    public Beacon[] allBeacons() {
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_BEACON, null, null, null, null, null, null);
+
+        if(!cursor.moveToFirst()) return null;
+
+
+
+        List<Beacon> items = new ArrayList<Beacon>();
+
+        while(cursor.moveToNext()) {
+            Beacon beacon = new Beacon();
+
+            beacon.setBeaconId(cursor.getString(cursor.getColumnIndex("beaconId")));
+            beacon.setMajor(cursor.getInt(cursor.getColumnIndex("major")));
+            beacon.setMinor(cursor.getInt(cursor.getColumnIndex("minor")));
+            items.add(beacon);
+        }
+
+        cursor.close();
+        db.close();
+
+        return items.toArray(new Beacon[0]);
+    }
+
+    @Override
 	public void insertOrUpdate(Addition addition) {
 		
 		ContentValues contentValues = new ContentValues();

@@ -5,6 +5,7 @@ import android.content.Context;
 import javax.inject.Singleton;
 
 import ch.hsr.nsg.themenrundgang.applicationService.NsgApi;
+import ch.hsr.nsg.themenrundgang.dagger.InjectingApplication;
 import ch.hsr.nsg.themenrundgang.model.ItemRepository;
 import ch.hsr.nsg.themenrundgang.model.Repositories;
 import ch.hsr.nsg.themenrundgang.model.SubjectRepository;
@@ -69,7 +70,7 @@ public class ViewModelModule {
     }
 
     @Provides @Singleton
-    BeaconMonitor provideBeaconMonitor(Context context) {
+    BeaconMonitor provideBeaconMonitor(@InjectingApplication.InjectingApplicationModule.Application Context context) {
         return new BeaconMonitorFake(context);
     }
 }

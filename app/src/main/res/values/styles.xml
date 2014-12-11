@@ -5,9 +5,26 @@
     <style name="AppThemeBase" parent="android:Theme.Material.Light">
         <item name="android:colorPrimary">@color/primary</item>
         <item name="android:colorPrimaryDark">@color/primary_dark</item>
-        <item name="android:textColorPrimary">#ffffffff</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
 
     <style name="AppTheme" parent="AppBaseTheme"></style>
+
+    <style name="ActionBar">
+        <item name="android:background">@color/primary</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:titleTextAppearance">@android:style/TextAppearance.Material.Large.Inverse</item>
+        <item name="android:subtitleTextAppearance">@android:style/TextAppearance.Material.Small.Inverse</item>
+    </style>
+
+    <!-- ActionBar title text -->
+    <style name="ActionBarTitleText"
+        parent="android:style/TextAppearance.Material.Widget.ActionBar.Title">
+        <item name="android:textColor">#ffffffff</item>
+    </style>
+
+
 
 </resources>
