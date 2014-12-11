@@ -5,6 +5,7 @@
     <style name="AppThemeBase" parent="android:Theme.Material.Light">
         <item name="android:colorPrimary">@color/primary</item>
         <item name="android:colorPrimaryDark">@color/primary_dark</item>
+        <item name="android:textColorPrimary">#ffffffff</item>
     </style>
 
     <style name="AppTheme" parent="AppBaseTheme"></style>
