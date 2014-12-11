@@ -1,36 +1,57 @@
 package ch.hsr.nsg.themenrundgang.vm;
 
+
+import ch.hsr.nsg.themenrundgang.applicationService.NsgApi;
 import ch.hsr.nsg.themenrundgang.model.Item;
 import ch.hsr.nsg.themenrundgang.model.ItemRepository;
-import ch.hsr.nsg.themenrundgang.model.Subject;
-import ch.hsr.nsg.themenrundgang.model.SubjectRepository;
+import ch.hsr.nsg.themenrundgang.exceptions.ItemNotFoundException;
 
 public class DetailViewModel {
 
-	private final ItemRepository itemRepo;
-	private final SubjectRepository subjectRepo;
-	
-	private Item item;
-	
-	public DetailViewModel(ItemRepository itemRepo, SubjectRepository subjectRepo) {
-		this.itemRepo = itemRepo;
-		this.subjectRepo = subjectRepo;
+	private final ItemRepository mItemRepo;
+
+	private Item mItem;
+    private NsgApi mApi;
+
+	public DetailViewModel(NsgApi api, ItemRepository itemRepo) {
+		mItemRepo = itemRepo;
+        mApi = api;
 	}
 	
-	public Subject[] allSubjects() {
-		return subjectRepo.allToplevelSubjects();
-	}
-	
-	public String getHeaderLabelText() {
-		return item.getName();
+	public String getTitleText() {
+		return mItem.getName();
 	}
 
+    public String getContentText() {
+        return mItem.getDescription();
+    }
+
 	public Item getItem() {
-		return item;
+		return mItem;
 	}
-	
-	public void setItemById(int id) {
-		item = itemRepo.itemById(id);
+
+	public void setItemById(int id) throws ItemNotFoundException, Exception {
+        mItem = mItemRepo.itemById(id);
+        if(mItem == null) throw new ItemNotFoundException("Item with Id " + id + " not found");
 	}
-	
+
+    public int getImageLength() {
+        if(mItem.getImages() == null) return 0;
+        return mItem.getImages().length;
+    }
+
+
+    public String getImageUrl(int position) {
+        if(!isValidImagePosition(position)) throw new IllegalArgumentException("Position out of bounds.");
+
+        int imageId = mItem.getImages()[position];
+        return mApi.getImagePath(imageId);
+    }
+
+    private boolean isValidImagePosition(int position) {
+        return mItem.getImages() != null ||
+               position >= 0 ||
+               position < mItem.getImages().length;
+    }
+
 }
