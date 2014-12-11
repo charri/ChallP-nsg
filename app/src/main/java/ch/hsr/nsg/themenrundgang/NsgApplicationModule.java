@@ -9,7 +9,6 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import javax.inject.Singleton;
 
 import ch.hsr.nsg.themenrundgang.applicationService.NsgApi;
-import ch.hsr.nsg.themenrundgang.applicationService.NsgApiServiceFake;
 import ch.hsr.nsg.themenrundgang.applicationService.NsgApiServiceHttp;
 import ch.hsr.nsg.themenrundgang.dagger.InjectingApplication.InjectingApplicationModule;
 import ch.hsr.nsg.themenrundgang.dagger.InjectingApplication.InjectingApplicationModule.Application;
@@ -57,10 +56,10 @@ public class NsgApplicationModule {
 		return provideRepositories(context);
 	}
 
-	@Provides @Singleton
+    @Provides @Singleton
     SubjectRepository provideSubjectRepository(@Application Context context) {
-		return provideRepositories(context);
-	}
+        return provideRepositories(context);
+    }
 
     @Provides @Singleton
     ImageLoader provideImageLoader(@Application Context context) {
