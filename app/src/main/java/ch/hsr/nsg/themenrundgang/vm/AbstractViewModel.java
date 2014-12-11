@@ -1,29 +1,25 @@
 package ch.hsr.nsg.themenrundgang.vm;
 
+import android.util.Log;
+
 import java.util.Observable;
 import java.util.Observer;
 
 import ch.hsr.nsg.themenrundgang.utils.OnObservable;
 
-public abstract class AbstractViewModel implements OnObservable {
+public abstract class AbstractViewModel extends Observable implements OnObservable {
 
-    private Observable observable;
+    private final static String TAG = "OnObservable";
 
     public AbstractViewModel() {
-        observable = new Observable();
+
     }
 
     @Override
-    public void notifyObservers(String key) {
-        observable.hasChanged();
-        observable.notifyObservers(key);
-    }
-    @Override
-    public void addObserver(Observer observer) {
-        observable.addObserver(observer);
-    }
-    @Override
-    public void deleteObserver(Observer observer) {
-        observable.deleteObserver(observer);
+    public void notifyOn(String key) {
+        Log.i(TAG, "notifyObservers " + key);
+        Log.i(TAG, "registered " + countObservers());
+        setChanged();
+        notifyObservers(key);
     }
 }

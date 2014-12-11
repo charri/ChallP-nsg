@@ -24,13 +24,7 @@ public class TutorialFragment extends InjectingFragment {
 		ViewGroup rootView = (ViewGroup)inflater.inflate(getResource(), container, false);
 		
 		ButterKnife.inject(this, rootView);
-
-        onInjected(savedInstanceState);
 		
 		return rootView;
-	}
-	
-	protected void onInjected(Bundle savedInstanceState) {
-		// do nothing
 	}
 }

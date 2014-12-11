@@ -41,11 +41,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.SubjectsActivity" >
-        </activity>
         <activity
-            android:name=".view.ItemsActivity"
-            android:label="@string/title_activity_items" >
+            android:name=".view.ItemsActivity">
+        </activity>
+        <activity android:name="ch.hsr.nsg.themenrundgang.view.SubjectsActivity" android:label="@string/activity_subjects">
+
         </activity>
     </application>
 

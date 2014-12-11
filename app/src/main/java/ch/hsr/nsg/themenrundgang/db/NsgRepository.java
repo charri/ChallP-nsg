@@ -114,6 +114,8 @@ public class NsgRepository
 		} else {
 			sqlBuilder.append("parentId = " + parent.getId());
 		}
+
+        sqlBuilder.append(" ORDER BY name");
 		
 		SQLiteDatabase db = getReadableDatabase();
 		

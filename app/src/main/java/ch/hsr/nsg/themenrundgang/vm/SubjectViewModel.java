@@ -75,7 +75,7 @@ public class SubjectViewModel extends AbstractViewModel {
 
             this.isChecked = isChecked;
             if(observable != null) {
-                observable.notifyObservers(SubjectViewModel.KEY_SUBJECTS);
+                observable.notifyOn(SubjectViewModel.KEY_SUBJECTS);
             }
         }
 
