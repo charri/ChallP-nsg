@@ -23,14 +23,15 @@
 
         </activity>
         <activity android:name="ch.hsr.nsg.themenrundgang.view.DetailActivity">
-
-        </activity>
-
-        <activity android:name="ch.hsr.nsg.themenrundgang.view.TutorialActivity">
             <intent-filter>
+
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity android:name="ch.hsr.nsg.themenrundgang.view.TutorialActivity">
+
         </activity>
 
         <activity android:name="ch.hsr.nsg.themenrundgang.view.SubjectsActivity">
