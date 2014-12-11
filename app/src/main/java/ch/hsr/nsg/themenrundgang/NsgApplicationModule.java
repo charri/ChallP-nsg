@@ -2,6 +2,7 @@ package ch.hsr.nsg.themenrundgang;
 
 import android.content.Context;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
@@ -64,7 +65,19 @@ public class NsgApplicationModule {
     @Provides @Singleton
     ImageLoader provideImageLoader(@Application Context context) {
 
-        ImageLoaderConfiguration config =  new ImageLoaderConfiguration.Builder(context).writeDebugLogs().build();
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .showImageOnLoading(R.drawable.ic_loading) // resource or drawable
+                .showImageForEmptyUri(R.drawable.ic_loading) // resource or drawable
+                .resetViewBeforeLoading(true)  // default
+                .delayBeforeLoading(0)
+                .cacheInMemory(true) // default
+                .cacheOnDisk(true) // default
+                .build();
+
+        ImageLoaderConfiguration config =  new ImageLoaderConfiguration.Builder(context)
+                .writeDebugLogs()
+                .defaultDisplayImageOptions(options)
+                .build();
 
         ImageLoader imageLoader = ImageLoader.getInstance();
         imageLoader.init(config);
