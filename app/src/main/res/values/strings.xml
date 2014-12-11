@@ -1,0 +1,11 @@
+<resources>
+
+    <string name="app_name">Naturmuseum SG - Themenrundgang</string>
+    <string name="action_search">Suchen</string>
+    <string name="detail_activity_missing_parameter_msg">Kein Exponat ausgewählt</string>
+
+    <string name="subject_info_card_title">Welche Themen interessieren Dich?</string>
+    <string name="subject_info_card_info">Du kannst jederzeit hierhin zurückkehren und deine Auswahl anpassen.</string>
+    <string name="subject_info_card_selected">%1$d von %2$d ausgewählt</string>
+
+</resources>
