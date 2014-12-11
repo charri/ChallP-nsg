@@ -4,23 +4,27 @@
     android:layout_width="match_parent" android:layout_height="match_parent"
     card_view:cardElevation="5dp"
     android:layout_margin="5dp"
+    android:id="@+id/container"
     >
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:scaleType="centerCrop"
-            android:id="@+id/card_image"/>
+            android:id="@+id/card_image"
+            />
 
         <TextView
             android:layout_below="@id/card_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
+            android:layout_margin="10dp"
+            android:layout_centerVertical="true"
             android:id="@id/title"
             android:text="Content"
             android:layout_alignParentLeft="true"
@@ -32,6 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             style="@android:style/TextAppearance.Material.Medium"
             android:layout_margin="10dp"
             android:id="@+id/checkbox"

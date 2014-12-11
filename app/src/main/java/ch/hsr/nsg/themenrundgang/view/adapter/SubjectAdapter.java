@@ -1,6 +1,7 @@
 package ch.hsr.nsg.themenrundgang.view.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import ch.hsr.nsg.themenrundgang.R;
 import ch.hsr.nsg.themenrundgang.dagger.InjectingActivityModule;
 import ch.hsr.nsg.themenrundgang.model.Subject;
@@ -47,13 +49,14 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ViewHold
         final SubjectViewModel.UiSubject subject = mSubjects.get(i);
         viewHolder.title.setText(subject.getName());
         imageLoader.displayImage(subject.getImageUrl(), viewHolder.image);
-        viewHolder.checkBox.setChecked(subject.isChecked());
+        // set listener before setting value
         viewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 subject.setChecked(isChecked);
             }
         });
+        viewHolder.checkBox.setChecked(subject.isChecked());
     }
 
     @Override
@@ -66,6 +69,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ViewHold
         @InjectView(R.id.title) public TextView title;
         @InjectView(R.id.card_image) public ImageView image;
         @InjectView(R.id.checkbox) public CheckBox checkBox;
+        @InjectView(R.id.container) public CardView cardView;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -73,5 +77,9 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ViewHold
             ButterKnife.inject(this, itemView);
         }
 
+        @OnClick({R.id.container, R.id.card_image})
+        public void onClick() {
+            checkBox.toggle();
+        }
     }
 }
