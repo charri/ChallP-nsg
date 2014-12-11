@@ -1,15 +1,17 @@
 package ch.hsr.nsg.themenrundgang.utils;
 
+import android.util.Log;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Observer;
 
-/**
- * Created by tommy on 11.12.14.
- */
+
 public class OnManager implements OnObserver {
+
+    private final static String TAG = "OnManger";
 
     private HashMap<String, LinkedList<OnListener>> mMutex;
 
@@ -19,7 +21,16 @@ public class OnManager implements OnObserver {
 
     @Override
     public void update(Observable observable, Object data) {
+        String key = data.toString();
 
+        Log.i(TAG, "update " + key);
+        Log.i(TAG, "mMutex containsKey " + mMutex.containsKey(key));
+
+        if(!mMutex.containsKey(key)) return;
+
+        for(OnListener li : mMutex.get(key)) {
+            li.onNotify();
+        }
     }
     @Override
     public void addOnListener(String key, OnListener listener) {

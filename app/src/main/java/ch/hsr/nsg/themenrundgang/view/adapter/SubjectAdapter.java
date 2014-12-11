@@ -46,10 +46,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ViewHold
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         final SubjectViewModel.UiSubject subject = mSubjects.get(i);
         viewHolder.title.setText(subject.getName());
-        viewHolder.image.setImageDrawable(null);
-        if(subject.getImageUrl() != null) {
-            imageLoader.displayImage(subject.getImageUrl(), viewHolder.image);
-        }
+        imageLoader.displayImage(subject.getImageUrl(), viewHolder.image);
         viewHolder.checkBox.setChecked(subject.isChecked());
         viewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

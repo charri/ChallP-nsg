@@ -33,7 +33,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="ch.hsr.nsg.themenrundgang.view.SubjectsActivity">
+        <activity android:name="ch.hsr.nsg.themenrundgang.view.SubjectsActivity" android:label="@string/activity_subjects">
 
         </activity>
 

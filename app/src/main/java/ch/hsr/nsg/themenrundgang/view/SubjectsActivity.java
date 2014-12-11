@@ -1,5 +1,6 @@
 package ch.hsr.nsg.themenrundgang.view;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import javax.inject.Inject;
 
 import butterknife.InjectView;
+import butterknife.OnClick;
 import ch.hsr.nsg.themenrundgang.R;
 import ch.hsr.nsg.themenrundgang.dagger.InjectingActivity;
 import ch.hsr.nsg.themenrundgang.model.Subject;
@@ -24,8 +26,8 @@ public class SubjectsActivity extends InjectingActivity {
     @InjectView(R.id.recyler_cards)
     RecyclerView mRecyclerView;
 
-    @InjectView(R.id.info_title)
-    TextView mInfoTitle;
+    @InjectView(R.id.subject_info_card_selected)
+    TextView mInfoCardSelected;
 
     SubjectAdapter mAdapter;
 
@@ -34,30 +36,35 @@ public class SubjectsActivity extends InjectingActivity {
 
 	@Override protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+        viewModel.addObserver(this); // register monitoring
 		
 		setContentView(R.layout.activity_subjects);
 
+        Drawable divider = getDrawable(R.drawable.divider_cardview);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, null));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(divider));
 
         mAdapter = getObjectGraph().get(SubjectAdapter.class);
         mRecyclerView.setAdapter(mAdapter);
 
+        mInfoCardSelected.setText(getSubjectsText());
+
         super.addOnListener(SubjectViewModel.KEY_SUBJECTS, new OnListener() {
             @Override
             public void onNotify() {
-
-                String text = String.format(
-                                getResources().getString(R.string.subject_info_card_selected),
-                                viewModel.getSubjectsChecked(),
-                                viewModel.getSubjects().size());
-
-                mInfoTitle.setText(text);
+                mInfoCardSelected.setText(getSubjectsText());
             }
         });
 	}
 
+    private String getSubjectsText() {
+        return  String.format(
+                getResources().getString(R.string.subject_info_card_selected),
+                viewModel.getSubjectsChecked(),
+                viewModel.getSubjects().size());
+    }
 
 }

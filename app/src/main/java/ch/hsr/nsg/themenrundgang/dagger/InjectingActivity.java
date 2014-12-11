@@ -29,6 +29,7 @@
 package ch.hsr.nsg.themenrundgang.dagger;
 
 import android.app.Activity;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,6 +128,7 @@ public class InjectingActivity
 
     @Override
     public void update(Observable observable, Object data) {
+        Log.i("Injecting", "update");
         mOnManager.update(observable, data);
     }
     @Override

@@ -6,12 +6,11 @@ import android.view.View;
 import android.widget.Button;
 
 import butterknife.InjectView;
+import butterknife.OnClick;
 import ch.hsr.nsg.themenrundgang.R;
 
 
 public class TutorialFragmentFinal extends TutorialFragment {
-	
-	@InjectView(R.id.btnNext) Button btnNext;
 
     public static TutorialFragmentFinal newInstance() {
         TutorialFragmentFinal f = new TutorialFragmentFinal();
@@ -21,12 +20,11 @@ public class TutorialFragmentFinal extends TutorialFragment {
         return f;
     }
 
-	
-	@Override protected void onInjected(Bundle savedInstanceState) {
-		btnNext.setOnClickListener(new View.OnClickListener() {
-			@Override public void onClick(View v) {
-				startActivity(new Intent(getActivity(), SubjectsActivity.class));
-			}
-		});
-	}
+    @InjectView(R.id.btnNext) Button btnNext;
+
+    @OnClick(R.id.btnNext)
+    public void onClickNext(View view) {
+        startActivity(new Intent(getActivity(), SubjectsActivity.class));
+    }
+
 }
