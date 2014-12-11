@@ -1,12 +1,17 @@
 package ch.hsr.nsg.themenrundgang;
 
+import android.content.Context;
+
 import javax.inject.Singleton;
 
 import ch.hsr.nsg.themenrundgang.applicationService.NsgApi;
 import ch.hsr.nsg.themenrundgang.model.ItemRepository;
 import ch.hsr.nsg.themenrundgang.model.Repositories;
 import ch.hsr.nsg.themenrundgang.model.SubjectRepository;
+import ch.hsr.nsg.themenrundgang.monitor.BeaconMonitor;
+import ch.hsr.nsg.themenrundgang.monitor.BeaconMonitorFake;
 import ch.hsr.nsg.themenrundgang.view.DetailActivity;
+import ch.hsr.nsg.themenrundgang.view.ItemsActivity;
 import ch.hsr.nsg.themenrundgang.view.SubjectsActivity;
 import ch.hsr.nsg.themenrundgang.view.TestActivity;
 import ch.hsr.nsg.themenrundgang.view.TutorialActivity;
@@ -15,8 +20,10 @@ import ch.hsr.nsg.themenrundgang.view.TutorialFragmentFinal;
 import ch.hsr.nsg.themenrundgang.view.TutorialFragmentInfo;
 import ch.hsr.nsg.themenrundgang.view.TutorialFragmentItems;
 import ch.hsr.nsg.themenrundgang.view.TutorialFragmentSubjects;
+import ch.hsr.nsg.themenrundgang.view.adapter.ItemAdapter;
 import ch.hsr.nsg.themenrundgang.view.adapter.SubjectAdapter;
 import ch.hsr.nsg.themenrundgang.vm.DetailViewModel;
+import ch.hsr.nsg.themenrundgang.vm.ItemViewModel;
 import ch.hsr.nsg.themenrundgang.vm.SubjectViewModel;
 import ch.hsr.nsg.themenrundgang.vm.TestViewModel;
 import ch.hsr.nsg.themenrundgang.vm.TutorialViewModel;
@@ -32,7 +39,7 @@ import dagger.Provides;
 	injects = { 
 			DetailActivity.class, TestActivity.class, TutorialActivity.class, TutorialFragment.class,
 			TutorialFragmentInfo.class, TutorialFragmentFinal.class, TutorialFragmentItems.class, TutorialFragmentSubjects.class,
-            SubjectsActivity.class, SubjectAdapter.class
+            SubjectsActivity.class, SubjectAdapter.class, ItemsActivity.class, ItemAdapter.class
 	},
 	addsTo = NsgApplicationModule.class,
 	library = true
@@ -54,5 +61,15 @@ public class ViewModelModule {
     @Provides @Singleton
     SubjectViewModel provideSubjectViewModel(NsgApi nsgApi, SubjectRepository subjectRepo) {
         return new SubjectViewModel(nsgApi, subjectRepo);
+    }
+
+    @Provides @Singleton
+    ItemViewModel provideItemViewModel(ItemRepository itemRepo, BeaconMonitor beaconMonitor) {
+        return new ItemViewModel(itemRepo, beaconMonitor);
+    }
+
+    @Provides @Singleton
+    BeaconMonitor provideBeaconMonitor(Context context) {
+        return new BeaconMonitorFake(context);
     }
 }
