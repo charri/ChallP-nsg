@@ -2,16 +2,15 @@
 
     <color name="primary">#ff55601c</color>
     <color name="primary_dark">#ff003470</color>
-    <style name="AppThemeBase" parent="android:Theme.Material">
+
+    <style name="AppThemeBase" parent="Theme.AppCompat.Light">
         <item name="android:colorPrimary">@color/primary</item>
         <item name="android:colorPrimaryDark">@color/primary_dark</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:windowContentTransitions">true</item>
-        <item name="android:windowSharedElementEnterTransition">
-            @transition/change_image_transform</item>
-        <item name="android:windowSharedElementExitTransition">
-            @transition/change_image_transform</item>
+        <item name="android:windowActivityTransitions">true</item>
+
     </style>
 
     <style name="AppTheme" parent="AppBaseTheme"></style>

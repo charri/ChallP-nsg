@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">Naturkundemuseum St. Gallen Themenrundgang</string>
@@ -5,5 +6,9 @@
     <string name="detail_activity_missing_parameter_msg">Kein Exponat ausgewählt</string>
     <string name="detail_activity_item_not_found_msg">Das ausgewählte Exponat existiert nicht.</string>
     <string name="detail_activity_unknown_error_msg">Ein unbekannter Fehler ist aufgetreten.</string>
+    <string name="transition_detail_image">transition_detail_image</string>
+    <string name="title_activity_detail_image">DetailImageActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

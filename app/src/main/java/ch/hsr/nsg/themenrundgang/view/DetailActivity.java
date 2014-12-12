@@ -1,16 +1,28 @@
 package ch.hsr.nsg.themenrundgang.view;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.transition.Slide;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.ViewManager;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
@@ -21,12 +33,12 @@ import ch.hsr.nsg.themenrundgang.dagger.InjectingFragmentActivity;
 import ch.hsr.nsg.themenrundgang.exceptions.ItemNotFoundException;
 import ch.hsr.nsg.themenrundgang.vm.DetailViewModel;
 
-public class DetailActivity extends InjectingFragmentActivity {
+public class DetailActivity extends InjectingFragmentActivity implements ImageFragmentPage.Callback {
 
     private static final String EXTRA_ITEM = "itemId";
     private static final int ITEM_ID_DEBUG = 2;
 
-    private Fragment[] mFragmentCache = new Fragment[]{};
+    private ImageFragmentPage[] mFragmentCache = new ImageFragmentPage[]{};
 
     @Inject
     DetailViewModel mViewModel;
@@ -71,10 +83,12 @@ public class DetailActivity extends InjectingFragmentActivity {
     }
 
     private void setupUi() {
+
         setContentView(R.layout.activity_detail);
         setupText();
         setupViewPager();
         setupImageCaption();
+
     }
 
     private void setupViewPager() {
@@ -89,7 +103,7 @@ public class DetailActivity extends InjectingFragmentActivity {
     private void setupFragmentCache() {
         if(mFragmentCache == null ||
            mFragmentCache.length < mViewModel.getImageLength()) {
-            mFragmentCache = new Fragment[mViewModel.getImageLength()];
+            mFragmentCache = new ImageFragmentPage[mViewModel.getImageLength()];
         }
     }
 
@@ -97,12 +111,12 @@ public class DetailActivity extends InjectingFragmentActivity {
         setupFragmentCache();
         if(mFragmentCache[position] == null) {
             mFragmentCache[position] = ImageFragmentPage.newInstance(mViewModel.getImageUrl(position));
+            mFragmentCache[position].setCallback(this);
         }
         return mFragmentCache[position];
     }
 
     private void setupText() {
-        setActionBar(mToolbar);
         mToolbar.setTitle(mViewModel.getTitleText());
         mTitle.setText(mViewModel.getTitleText());
         mContent.setText(mViewModel.getContentText());
@@ -134,6 +148,32 @@ public class DetailActivity extends InjectingFragmentActivity {
 
     @OnPageChange(R.id.pager) void onPageChanged(int position) {
         setImageCaption(position + 1);
+        updateColorTheme(mFragmentCache[position]);
+    }
+
+    @Override
+    public void onColorThemeReady(ImageFragmentPage imageFragmentPage) {
+        updateColorTheme(mFragmentCache[mPager.getCurrentItem()]);
+    }
+
+    @Override
+    public void onSelect(ImageFragmentPage imageFragmentPage) {
+        Intent intent = new Intent(this, DetailImageActivity.class);
+        ImageView imageView = imageFragmentPage.getImageView();
+        Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+        ByteArrayOutputStream bs = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 50, bs);
+        intent.putExtra("byteArray", bs.toByteArray());
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, imageFragmentPage.getImageView(), getString(R.string.transition_detail_image));
+        ActivityCompat.startActivity(this, intent, options.toBundle());
+    }
+
+    private void updateColorTheme(ImageFragmentPage imageFragmentPage) {
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(imageFragmentPage.getVibrantColorDark());
+        mToolbar.setBackgroundColor(imageFragmentPage.getVibrantColor());
     }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {

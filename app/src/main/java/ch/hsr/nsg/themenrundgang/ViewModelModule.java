@@ -7,6 +7,7 @@ import ch.hsr.nsg.themenrundgang.model.ItemRepository;
 import ch.hsr.nsg.themenrundgang.model.Repositories;
 import ch.hsr.nsg.themenrundgang.model.SubjectRepository;
 import ch.hsr.nsg.themenrundgang.view.DetailActivity;
+import ch.hsr.nsg.themenrundgang.view.DetailImageActivity;
 import ch.hsr.nsg.themenrundgang.view.ImageFragmentPage;
 import ch.hsr.nsg.themenrundgang.view.SubjectsActivity;
 import ch.hsr.nsg.themenrundgang.view.TestActivity;
@@ -31,8 +32,9 @@ import dagger.Provides;
  */
 @Module(
 	injects = { 
-			DetailActivity.class, TestActivity.class, TutorialActivity.class, TutorialFragment.class,
-			TutorialFragmentInfo.class, TutorialFragmentFinal.class, TutorialFragmentItems.class, TutorialFragmentSubjects.class, ImageFragmentPage.class,
+			DetailActivity.class, DetailImageActivity.class, ImageFragmentPage.class,
+            TestActivity.class, TutorialActivity.class, TutorialFragment.class,
+			TutorialFragmentInfo.class, TutorialFragmentFinal.class, TutorialFragmentItems.class, TutorialFragmentSubjects.class,
             SubjectsActivity.class, SubjectAdapter.class
 	},
 	addsTo = NsgApplicationModule.class,

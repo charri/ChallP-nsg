@@ -2,13 +2,15 @@
     android:id="@+id/content"
     android:orientation="vertical"
     android:layout_width="match_parent"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
     android:layout_height="match_parent" >
 
     <ImageView
-        android:id="@+id/imageView"
+
+        android:id="@+id/image_view"
+        android:transitionName="@string/transition_detail_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="bear"
-        android:scaleType="centerCrop"
-        android:src="@drawable/id_2" />
+        android:scaleType="centerCrop"/>
 </FrameLayout>
