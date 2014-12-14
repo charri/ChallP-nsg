@@ -13,6 +13,7 @@ import ch.hsr.nsg.themenrundgang.monitor.BeaconMonitor;
 import ch.hsr.nsg.themenrundgang.monitor.BeaconMonitorFake;
 import ch.hsr.nsg.themenrundgang.view.DetailActivity;
 import ch.hsr.nsg.themenrundgang.view.ItemsActivity;
+import ch.hsr.nsg.themenrundgang.view.SplashActivity;
 import ch.hsr.nsg.themenrundgang.view.SubjectsActivity;
 import ch.hsr.nsg.themenrundgang.view.TestActivity;
 import ch.hsr.nsg.themenrundgang.view.TutorialActivity;
@@ -38,7 +39,7 @@ import dagger.Provides;
  */
 @Module(
 	injects = { 
-			DetailActivity.class, TestActivity.class, TutorialActivity.class, TutorialFragment.class,
+			DetailActivity.class, TestActivity.class, TutorialActivity.class, TutorialFragment.class, SplashActivity.class,
 			TutorialFragmentInfo.class, TutorialFragmentFinal.class, TutorialFragmentItems.class, TutorialFragmentSubjects.class,
             SubjectsActivity.class, SubjectAdapter.class, ItemsActivity.class, ItemAdapter.class
 	},

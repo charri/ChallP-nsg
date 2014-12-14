@@ -12,6 +12,7 @@
         android:subtitle="@string/app_name"
         android:id="@+id/toolbar"
         style="@style/ActionBar"
+        android:background="@color/red"
         android:animateLayoutChanges="true"
         >
         <TextView

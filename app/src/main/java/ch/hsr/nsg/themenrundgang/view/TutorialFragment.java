@@ -24,7 +24,17 @@ public class TutorialFragment extends InjectingFragment {
 		ViewGroup rootView = (ViewGroup)inflater.inflate(getResource(), container, false);
 		
 		ButterKnife.inject(this, rootView);
-		
+
+        onInjected();
+
 		return rootView;
 	}
+
+    protected void onInjected() {
+
+    }
+
+    public void setProgress(int value) {
+
+    }
 }

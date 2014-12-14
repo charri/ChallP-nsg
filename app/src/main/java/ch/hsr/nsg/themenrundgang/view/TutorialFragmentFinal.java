@@ -1,9 +1,11 @@
 package ch.hsr.nsg.themenrundgang.view;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -20,11 +22,42 @@ public class TutorialFragmentFinal extends TutorialFragment {
         return f;
     }
 
-    @InjectView(R.id.btnNext) Button btnNext;
+    int progressValue = 1;
 
-    @OnClick(R.id.btnNext)
-    public void onClickNext(View view) {
-        startActivity(new Intent(getActivity(), SubjectsActivity.class));
+    @InjectView(R.id.progress)
+    ProgressBar progressBar;
+
+    @InjectView(R.id.btnStart) Button btnStart;
+
+
+    @InjectView(R.id.container_info) View viewInfo;
+    @InjectView(R.id.container_after) View viewAfter;
+
+    @OnClick(R.id.btnStart)
+    public void onClickStart(View view) {
+        getActivity().startActivity(
+                new Intent(getActivity(), SubjectsActivity.class),
+                ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle()
+        );
     }
 
+    @Override
+    protected void onInjected() {
+        updateUi();
+    }
+
+    @Override
+    public void setProgress(int value) {
+        progressValue = value;
+        updateUi();
+    }
+
+    private void updateUi() {
+        if(progressBar == null) return;
+        progressBar.setProgress(progressValue);
+        if(progressValue == progressBar.getMax()) {
+            viewInfo.setVisibility(View.GONE);
+            viewAfter.setVisibility(View.VISIBLE);
+        }
+    }
 }

@@ -18,4 +18,14 @@
     <string name="tutorial_subjects_title">Themen auswählen</string>
     <string name="tutorial_subjects_text">Wähle aus, zu welchen Themen Du Zusatzinformationen sehen möchtest. Du kannst die Themen auch später jederzeit ändern.</string>
 
+    <string name="tutorial_items_title">Exponate entdecken</string>
+    <string name="tutorial_items_text">Bewege dich frei durch unser Museum und immer, wenn ein interessantes Exponat in deiner Nähe ist sind alle Infos dazu nur einen Klick weit entfernt! </string>
+
+    <string name="tutorial_final_title">Nur noch ein Moment...</string>
+    <string name="tutorial_final_text">Die neusten Informationen werden soeben für dich heruntergeladen. Sobald die Daten gespeichert sind, kannst du mit dem Themenauswahl beginnen. </string>
+    <string name="tutorial_final_thanks">Danke für dein Besuch an der Naturmuseum St. Gallen. Wir wünschen dir viel Spass!</string>
+    <string name="tutorial_final_starten">Starten</string>
+
+    <string name="tutorial_icon_info">Infos Infos Infos</string>
+    <string name="tutorial_icon_sound">Lass dir Inhalte vorlesen lassen.</string>
 </resources>

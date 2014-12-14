@@ -3,13 +3,17 @@
     <color name="primary">#ff55601c</color>
     <color name="primary_dark">#ff003470</color>
     <style name="AppThemeBase" parent="android:Theme.Material.Light">
-        <item name="android:colorPrimary">@color/primary</item>
-        <item name="android:colorPrimaryDark">@color/primary_dark</item>
+        <item name="android:colorPrimary">@color/green</item>
+        <item name="android:colorPrimaryDark">@color/green_dark</item>
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
+        <item name="android:windowEnterTransition">@android:transition/slide_right</item>
+        <item name="android:windowExitTransition">@android:transition/slide_left</item>
+
     </style>
 
     <style name="AppTheme" parent="AppBaseTheme"></style>
+
 
     <style name="ActionBar">
         <item name="android:background">@color/primary</item>

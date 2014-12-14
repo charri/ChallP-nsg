@@ -57,6 +57,8 @@ public class SubjectsActivity extends InjectingActivity {
 		
 		setContentView(R.layout.activity_subjects);
 
+        getWindow().setStatusBarColor(getResources().getColor(R.color.red_dark));
+
         mMenuNext.setCompoundDrawables(null, null, new IconDrawable(this, Iconify.IconValue.fa_arrow_right)
                 .colorRes(android.R.color.white)
                 .actionBarSize(), null);
