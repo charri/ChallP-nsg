@@ -39,7 +39,7 @@
                 <TextView
                     android:id="@+id/image_caption"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
                     android:layout_marginBottom="8dp"
@@ -47,12 +47,10 @@
                     android:textColor="#ff232323" />
                 <TextView
                     android:id="@+id/title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="48dp"
                     android:lineSpacingExtra="48dp"
-                    android:ellipsize="end"
-                    android:maxLines="2"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
                     android:textAppearance="?android:attr/textAppearanceLarge"
@@ -61,7 +59,7 @@
 
                 <TextView
                     android:id="@+id/content"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"

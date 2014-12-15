@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import ch.hsr.nsg.themenrundgang.model.Addition;
@@ -426,8 +425,10 @@ public class NsgRepository
 		item.setName(cursor.getString(cursor.getColumnIndex("name")));
 		item.setDescription(cursor.getString(cursor.getColumnIndex("description")));
 		item.setId(cursor.getInt(cursor.getColumnIndex("id")));
+        cursor.close();
+        db.close();
         item.setImages(imagesForItem(item));
-				
+
 		return item; 
 	}
 

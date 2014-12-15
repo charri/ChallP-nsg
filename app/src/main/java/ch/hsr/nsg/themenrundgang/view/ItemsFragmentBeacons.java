@@ -22,6 +22,7 @@ import ch.hsr.nsg.themenrundgang.monitor.Region;
 import ch.hsr.nsg.themenrundgang.ui.DividerItemDecoration;
 import ch.hsr.nsg.themenrundgang.view.adapter.ItemAdapter;
 import ch.hsr.nsg.themenrundgang.vm.ItemViewModel;
+import ch.hsr.nsg.themenrundgang.vm.model.UiItem;
 import ch.hsr.nsg.themenrundgang.vm.model.UiSubject;
 
 public class ItemsFragmentBeacons extends InjectingFragment {
@@ -64,6 +65,12 @@ public class ItemsFragmentBeacons extends InjectingFragment {
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getResources().getDrawable(R.drawable.divider_cardview)));
         mAdapter = getObjectGraph().get(ItemAdapter.class);
         mAdapter.setSubjects(mSubjects);
+        mAdapter.setOnClickListener(new ItemAdapter.OnClickListener() {
+            @Override
+            public void onClick(View view, UiItem item) {
+                startActivity(DetailActivity.getIntent(getActivity(), item));
+            }
+        });
         mRecyclerView.setAdapter(mAdapter);
 
         mViewModel.setBeaconMonitorListener(new MonitoringListenerCallback() {

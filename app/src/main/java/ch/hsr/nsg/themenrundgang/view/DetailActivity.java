@@ -13,16 +13,13 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewManager;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
-import java.io.ByteArrayOutputStream;
-
 import javax.inject.Inject;
+
 import butterknife.InjectView;
 import butterknife.OnPageChange;
 import ch.hsr.nsg.themenrundgang.R;
@@ -146,11 +143,13 @@ public class DetailActivity extends InjectingFragmentActivity implements ImageFr
     }
 
     private void setImageCaption(int page) {
+
         mImageCaption.setText(
-                getString(R.string.image_caption_image) +
-                page + " " +
-                getString(R.string.image_caption_of)+" " +
+            String.format(
+                getString(R.string.image_caption_image),
+                page,
                 mViewModel.getImageLength()
+            )
         );
     }
 

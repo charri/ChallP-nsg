@@ -16,6 +16,7 @@ import ch.hsr.nsg.themenrundgang.R;
 import ch.hsr.nsg.themenrundgang.dagger.InjectingFragment;
 import ch.hsr.nsg.themenrundgang.ui.DividerItemDecoration;
 import ch.hsr.nsg.themenrundgang.view.adapter.ItemAdapter;
+import ch.hsr.nsg.themenrundgang.vm.model.UiItem;
 import ch.hsr.nsg.themenrundgang.vm.model.UiSubject;
 
 
@@ -54,6 +55,12 @@ public class ItemsFragmentAll extends InjectingFragment {
         ItemAdapter adapter = getObjectGraph().get(ItemAdapter.class);
         adapter.setSubjects(mSubjects);
         adapter.loadAllItemsForSubject();
+        adapter.setOnClickListener(new ItemAdapter.OnClickListener() {
+            @Override
+            public void onClick(View view, UiItem item) {
+               getActivity().startActivity(DetailActivity.getIntent(getActivity(), item));
+            }
+        });
         mRecyclerView.setAdapter(adapter);
 
         return rootView;
