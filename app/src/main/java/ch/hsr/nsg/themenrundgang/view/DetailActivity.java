@@ -1,5 +1,6 @@
 package ch.hsr.nsg.themenrundgang.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -27,6 +28,7 @@ import butterknife.OnPageChange;
 import ch.hsr.nsg.themenrundgang.R;
 import ch.hsr.nsg.themenrundgang.dagger.InjectingFragmentActivity;
 import ch.hsr.nsg.themenrundgang.exceptions.ItemNotFoundException;
+import ch.hsr.nsg.themenrundgang.model.Item;
 import ch.hsr.nsg.themenrundgang.utils.BitmapUtils;
 import ch.hsr.nsg.themenrundgang.utils.ThemeHelper;
 import ch.hsr.nsg.themenrundgang.vm.DetailViewModel;
@@ -58,6 +60,12 @@ public class DetailActivity extends InjectingFragmentActivity implements ImageFr
     @InjectView(R.id.content)
     TextView mContent;
 
+    public static Intent getIntent(Context context, Item item) {
+        Intent intent = new Intent(context, DetailActivity.class);
+        intent.putExtra(EXTRA_ITEM, item.getId());
+        return intent;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +94,6 @@ public class DetailActivity extends InjectingFragmentActivity implements ImageFr
         setupText();
         setupViewPager();
         setupImageCaption();
-
     }
 
     private void setupViewPager() {
