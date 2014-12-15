@@ -1,0 +1,24 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    tools:context="ch.hsr.nsg.themenrundgang.view.DetailImageActivity">
+
+   <Toolbar
+       android:background="@android:color/transparent"
+       android:title="Bild"
+       android:layout_width="match_parent"
+       android:titleTextAppearance="@android:style/TextAppearance.Material.Large.Inverse"
+       android:layout_height="wrap_content">
+
+       </Toolbar>
+   <ImageView
+       android:id="@+id/image_view"
+       android:transitionName="@string/transition_detail_image"
+       android:scaleType="fitCenter"
+       android:clickable="true"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent" />
+
+
+</FrameLayout>
