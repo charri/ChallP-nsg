@@ -1,10 +1,11 @@
 package ch.hsr.nsg.themenrundgang.view.adapter;
 
+import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,28 +17,34 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
 import ch.hsr.nsg.themenrundgang.R;
+import ch.hsr.nsg.themenrundgang.dagger.InjectingApplication;
 import ch.hsr.nsg.themenrundgang.model.Subject;
-import ch.hsr.nsg.themenrundgang.vm.ItemsAllViewModel;
+import ch.hsr.nsg.themenrundgang.vm.ItemViewModel;
 import ch.hsr.nsg.themenrundgang.vm.model.UiItem;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
 
-    private final ItemsAllViewModel mViewModel;
+    private final Context mContext;
+    private final ItemViewModel mViewModel;
     private final ImageLoader imageLoader;
     ArrayList<UiItem> mItems;
 
     @Inject
-    public ItemAdapter(ItemsAllViewModel viewModel, ImageLoader imageLoader) {
+    public ItemAdapter(@InjectingApplication.InjectingApplicationModule.Application Context context, ItemViewModel viewModel, ImageLoader imageLoader) {
+        mContext = context;
         mViewModel = viewModel;
         this.imageLoader = imageLoader;
-
+        mItems = new ArrayList<>();
     }
 
     public void setSubjects(Subject[] subjects) {
         mViewModel.setSubjects(subjects);
+    }
+
+    public void loadAllItemsForSubject() {
+        mViewModel.loadAllItems();
         mItems = mViewModel.getItems();
     }
 
@@ -52,6 +59,25 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         final UiItem item = mItems.get(i);
         viewHolder.title.setText(item.getName());
         imageLoader.displayImage(item.getImageUrl(), viewHolder.image);
+        viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+    }
+
+    public void removeItem(UiItem item) {
+
+        for(int i=mItems.size() - 1; i >= 0; i--) {
+            if(mItems.get(i).getId() != item.getId()) continue;
+            mItems.remove(i);
+            notifyItemRemoved(i);
+        }
+    }
+
+    public void addItem(UiItem item) {
+        mItems.add(item);
+        notifyItemInserted(mItems.size() - 1);
     }
 
     @Override
@@ -62,17 +88,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder {
         @InjectView(R.id.title) public TextView title;
         @InjectView(R.id.card_image) public ImageView image;
-        @InjectView(R.id.btnDetail) public Button btnDetail;
+        @InjectView(R.id.container) public CardView cardView;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             ButterKnife.inject(this, itemView);
-        }
-
-        @OnClick({R.id.btnDetail})
-        public void onClick() {
-
         }
     }
 }

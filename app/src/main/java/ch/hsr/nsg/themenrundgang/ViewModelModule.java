@@ -25,7 +25,6 @@ import ch.hsr.nsg.themenrundgang.view.adapter.ItemAdapter;
 import ch.hsr.nsg.themenrundgang.view.adapter.SubjectAdapter;
 import ch.hsr.nsg.themenrundgang.vm.DetailViewModel;
 import ch.hsr.nsg.themenrundgang.vm.ItemViewModel;
-import ch.hsr.nsg.themenrundgang.vm.ItemsAllViewModel;
 import ch.hsr.nsg.themenrundgang.vm.SubjectViewModel;
 import ch.hsr.nsg.themenrundgang.vm.TestViewModel;
 import ch.hsr.nsg.themenrundgang.vm.TutorialViewModel;
@@ -67,13 +66,8 @@ public class ViewModelModule {
     }
 
     @Provides @Singleton
-    ItemViewModel provideItemViewModel(ItemRepository itemRepo, BeaconMonitor beaconMonitor) {
-        return new ItemViewModel(itemRepo, beaconMonitor);
-    }
-
-    @Provides @Singleton
-    ItemsAllViewModel provideItemsAllViewModel(NsgApi nsgApi, ItemRepository itemRepo) {
-        return new ItemsAllViewModel(nsgApi, itemRepo);
+    ItemViewModel provideItemViewModel(NsgApi nsgApi, ItemRepository itemRepo, BeaconMonitor beaconMonitor) {
+        return new ItemViewModel(nsgApi, itemRepo, beaconMonitor);
     }
 
 }

@@ -13,6 +13,9 @@ public class UiItem extends Item implements Parcelable {
         uiItem.setDescription(item.getDescription());
         uiItem.setName(item.getName());
         uiItem.setImageUrl(imageUrl);
+        uiItem.setImages(item.getImages());
+        uiItem.setBeacons(item.getBeacons());
+        uiItem.setSubjects(item.getSubjects());
         return uiItem;
     }
 
@@ -25,6 +28,9 @@ public class UiItem extends Item implements Parcelable {
         setName(in.readString());
         setDescription(in.readString());
         setImageUrl(in.readString());
+        setSubjects(in.createIntArray());
+        setBeacons(in.createStringArray());
+        setImages(in.createIntArray());
     }
 
     private String imageUrl;
@@ -61,5 +67,8 @@ public class UiItem extends Item implements Parcelable {
         dest.writeString(getName());
         dest.writeString(getDescription());
         dest.writeString(getImageUrl());
+        dest.writeIntArray(getSubjects());
+        dest.writeStringArray(getBeacons());
+        dest.writeIntArray(getImages());
     }
 }

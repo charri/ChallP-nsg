@@ -276,7 +276,21 @@ public class NsgRepository
 		
 	}
 
-	@Override
+    @Override
+    public Item[] itemsForSubject(Subject[] subjects) {
+        StringBuilder sqlBuilder = new StringBuilder();
+
+        sqlBuilder.append("SELECT "+ TABLE_ITEM + ".* FROM " + TABLE_ITEM);
+        sqlBuilder.append(" WHERE id IN (");
+            sqlBuilder.append(" SELECT " + TABLE_ITEM_SUBJECT + ".itemId FROM " + TABLE_ITEM_SUBJECT);
+            sqlBuilder.append(" WHERE ");
+            sqlBuilder.append(StringUtils.join(subjects, FUNC_Subject, " OR "));
+        sqlBuilder.append(") ORDER BY " + TABLE_ITEM + ".name");
+
+        return toItems(sqlBuilder);
+    }
+
+    @Override
 	public void insertOrUpdate(Beacon beacon) {
 		ContentValues contentValues = new ContentValues();
 		contentValues.put("id", beacon.getBeaconId());

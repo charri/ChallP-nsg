@@ -53,8 +53,8 @@ public class ItemsFragmentAll extends InjectingFragment {
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getResources().getDrawable(R.drawable.divider_cardview)));
         ItemAdapter adapter = getObjectGraph().get(ItemAdapter.class);
         adapter.setSubjects(mSubjects);
+        adapter.loadAllItemsForSubject();
         mRecyclerView.setAdapter(adapter);
-
 
         return rootView;
     }

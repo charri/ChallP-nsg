@@ -35,8 +35,6 @@ public class ItemsActivity extends InjectingFragmentActivity {
     private final static String EXTRA_SUBJECTS = ItemsActivity.class.getName() + ":subjects";
 
     public static Intent getIntent(Context context, UiSubject[] subjects) {
-
-
         Intent intent = new Intent(context, ItemsActivity.class);
         intent.putExtra(EXTRA_SUBJECTS, subjects);
         return intent;
