@@ -26,6 +26,7 @@ import ch.hsr.nsg.themenrundgang.dagger.InjectingFragmentActivity;
 public class DetailImageActivity extends InjectingActivity {
 
     private static final String EXTRA_IMAGE_URL = "imageUrl";
+    public static final String EXTRA_IMAGE_BYTES = "byteArray";
 
     @InjectView(R.id.image_view)
     ImageView mImageView;
@@ -38,11 +39,11 @@ public class DetailImageActivity extends InjectingActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_image);
 
-        if(getIntent().hasExtra("byteArray")) {
+        if(getIntent().hasExtra(EXTRA_IMAGE_BYTES)) {
             ImageView previewThumbnail = new ImageView(this);
-            Bitmap b = BitmapFactory.decodeByteArray(
-                    getIntent().getByteArrayExtra("byteArray"), 0, getIntent().getByteArrayExtra("byteArray").length);
-            mImageView.setImageBitmap(b);
+            byte[] bytes = getIntent().getByteArrayExtra(EXTRA_IMAGE_BYTES);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            mImageView.setImageBitmap(bitmap);
         }
 
        // mImageLoader.displayImage(getIntent().getStringExtra(EXTRA_IMAGE_URL), mImageView);

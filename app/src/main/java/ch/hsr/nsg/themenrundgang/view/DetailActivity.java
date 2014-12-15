@@ -1,6 +1,5 @@
 package ch.hsr.nsg.themenrundgang.view;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -11,9 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.transition.Slide;
-import android.util.Log;
-import android.view.Gravity;
+import android.view.View;
 import android.view.ViewManager;
 import android.view.Window;
 import android.view.WindowManager;
@@ -23,7 +20,6 @@ import android.widget.Toast;
 import android.widget.Toolbar;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 
 import javax.inject.Inject;
 import butterknife.InjectView;
@@ -31,14 +27,17 @@ import butterknife.OnPageChange;
 import ch.hsr.nsg.themenrundgang.R;
 import ch.hsr.nsg.themenrundgang.dagger.InjectingFragmentActivity;
 import ch.hsr.nsg.themenrundgang.exceptions.ItemNotFoundException;
+import ch.hsr.nsg.themenrundgang.utils.BitmapUtils;
+import ch.hsr.nsg.themenrundgang.utils.ThemeHelper;
 import ch.hsr.nsg.themenrundgang.vm.DetailViewModel;
 
-public class DetailActivity extends InjectingFragmentActivity implements ImageFragmentPage.Callback {
+public class DetailActivity extends InjectingFragmentActivity implements ImageFragmentPage.Callback, ThemeHelper.Themable {
 
     private static final String EXTRA_ITEM = "itemId";
     private static final int ITEM_ID_DEBUG = 2;
 
     private ImageFragmentPage[] mFragmentCache = new ImageFragmentPage[]{};
+
 
     @Inject
     DetailViewModel mViewModel;
@@ -83,7 +82,6 @@ public class DetailActivity extends InjectingFragmentActivity implements ImageFr
     }
 
     private void setupUi() {
-
         setContentView(R.layout.activity_detail);
         setupText();
         setupViewPager();
@@ -141,7 +139,12 @@ public class DetailActivity extends InjectingFragmentActivity implements ImageFr
     }
 
     private void setImageCaption(int page) {
-        mImageCaption.setText("Bild " + page + " von " + mViewModel.getImageLength());
+        mImageCaption.setText(
+                getString(R.string.image_caption_image) +
+                page + " " +
+                getString(R.string.image_caption_of)+" " +
+                mViewModel.getImageLength()
+        );
     }
 
 
@@ -158,22 +161,24 @@ public class DetailActivity extends InjectingFragmentActivity implements ImageFr
 
     @Override
     public void onSelect(ImageFragmentPage imageFragmentPage) {
-        Intent intent = new Intent(this, DetailImageActivity.class);
         ImageView imageView = imageFragmentPage.getImageView();
         Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
-        ByteArrayOutputStream bs = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 50, bs);
-        intent.putExtra("byteArray", bs.toByteArray());
+
+        Intent intent = new Intent(this, DetailImageActivity.class);
+        intent.putExtra(DetailImageActivity.EXTRA_IMAGE_BYTES, BitmapUtils.getBytes(bitmap));
+
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, imageFragmentPage.getImageView(), getString(R.string.transition_detail_image));
         ActivityCompat.startActivity(this, intent, options.toBundle());
     }
 
+
     private void updateColorTheme(ImageFragmentPage imageFragmentPage) {
-        Window window = getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.setStatusBarColor(imageFragmentPage.getVibrantColorDark());
-        mToolbar.setBackgroundColor(imageFragmentPage.getVibrantColor());
+        ThemeHelper.changeColorTheme(this,imageFragmentPage.getVibrantColorDark(), imageFragmentPage.getVibrantColor());
+    }
+
+    @Override
+    public View getWidget() {
+        return mToolbar;
     }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {

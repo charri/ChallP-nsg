@@ -10,5 +10,6 @@
     <string name="title_activity_detail_image">DetailImageActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-
+    <string name="image_caption_image">Bild</string>
+    <string name="image_caption_of">von</string>
 </resources>
