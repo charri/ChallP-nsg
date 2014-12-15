@@ -3,29 +3,40 @@ package ch.hsr.nsg.themenrundgang.view;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.os.Parcelable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerTitleStrip;
+import android.support.v4.view.ViewPager;
+import android.view.View;
 
 import butterknife.InjectView;
+import butterknife.OnClick;
 import ch.hsr.nsg.themenrundgang.R;
-import ch.hsr.nsg.themenrundgang.dagger.InjectingActivity;
-import ch.hsr.nsg.themenrundgang.model.Subject;
-import ch.hsr.nsg.themenrundgang.ui.DividerItemDecoration;
-import ch.hsr.nsg.themenrundgang.view.adapter.ItemAdapter;
+import ch.hsr.nsg.themenrundgang.dagger.InjectingFragmentActivity;
+import ch.hsr.nsg.themenrundgang.vm.model.UiSubject;
 
-public class ItemsActivity extends InjectingActivity {
+public class ItemsActivity extends InjectingFragmentActivity {
 
-    @InjectView(R.id.recyler_items)
-    RecyclerView mRecyclerView;
+    @InjectView(R.id.pager)
+    ViewPager mViewPager;
 
-    Subject[] mSubjects;
+    @InjectView(R.id.pager_title_strip)
+    PagerTitleStrip mPagerTitleStrip;
 
-    private ItemAdapter mAdapter;
+    @InjectView(R.id.info_card)
+    View mInfoCard;
+
+    UiSubject[] mSubjects;
+
+    ItemsPagerAdapter mAdapter;
 
     private final static String EXTRA_SUBJECTS = ItemsActivity.class.getName() + ":subjects";
 
-    public static Intent getIntent(Context context, Subject[] subjects) {
+    public static Intent getIntent(Context context, UiSubject[] subjects) {
+
+
         Intent intent = new Intent(context, ItemsActivity.class);
         intent.putExtra(EXTRA_SUBJECTS, subjects);
         return intent;
@@ -35,20 +46,60 @@ public class ItemsActivity extends InjectingActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        getWindow().setStatusBarColor(getResources().getColor(R.color.blue_dark));
+
         setContentView(R.layout.activity_items);
 
-        mSubjects = (Subject[])getIntent().getParcelableArrayExtra(EXTRA_SUBJECTS);
+
+        Parcelable[] ps =getIntent().getParcelableArrayExtra(EXTRA_SUBJECTS);
+        mSubjects = new UiSubject[ps.length];
+        System.arraycopy(ps, 0, mSubjects, 0, ps.length);
+
+        mAdapter = new ItemsPagerAdapter(getSupportFragmentManager());
+        mViewPager.setAdapter(mAdapter);
+
+    }
 
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, null));
-        mRecyclerView.setHasFixedSize(true);
+    @OnClick(R.id.info_icon)
+    public void OnIconClick() {
 
-        mAdapter = getObjectGraph().get(ItemAdapter.class);
-        mRecyclerView.setAdapter(mAdapter);
+        mInfoCard.setVisibility(View.GONE);
+
+    }
+
+    private class ItemsPagerAdapter extends FragmentStatePagerAdapter {
+
+        private final Fragment[] fragments;
+
+        public ItemsPagerAdapter(FragmentManager fm) {
+            super(fm);
+
+            fragments = new Fragment[] {
+                ItemsFragmentBeacons.newInstance(mSubjects),
+                ItemsFragmentAll.newInstance(mSubjects)
+            };
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch(position) {
+                case 0: return getResources().getString(R.string.items_near);
+                case 1: return getResources().getString(R.string.items_all);
+            }
+            return "Tab " + position;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+
+            return fragments[position];
+        }
 
 
-
+        @Override
+        public int getCount() {
+            return fragments.length;
+        }
     }
 }

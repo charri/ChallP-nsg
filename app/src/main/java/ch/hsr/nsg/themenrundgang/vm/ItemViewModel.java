@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import ch.hsr.nsg.themenrundgang.model.ItemRepository;
 import ch.hsr.nsg.themenrundgang.monitor.BeaconMonitor;
+import ch.hsr.nsg.themenrundgang.vm.model.UiItem;
 
 public class ItemViewModel {
 
@@ -26,7 +27,5 @@ public class ItemViewModel {
         return mItems;
     }
 
-    public class UiItem {
 
-    }
 }

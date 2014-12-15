@@ -1,6 +1,5 @@
 package ch.hsr.nsg.themenrundgang.view.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,15 +20,13 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
 import ch.hsr.nsg.themenrundgang.R;
-import ch.hsr.nsg.themenrundgang.dagger.InjectingActivityModule;
-import ch.hsr.nsg.themenrundgang.model.Subject;
-import ch.hsr.nsg.themenrundgang.model.SubjectRepository;
 import ch.hsr.nsg.themenrundgang.vm.SubjectViewModel;
+import ch.hsr.nsg.themenrundgang.vm.model.UiSubject;
 
 
 public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ViewHolder> {
 
-    private final ArrayList<SubjectViewModel.UiSubject> mSubjects;
+    private final ArrayList<UiSubject> mSubjects;
     private final ImageLoader imageLoader;
 
     @Inject
@@ -46,7 +43,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        final SubjectViewModel.UiSubject subject = mSubjects.get(i);
+        final UiSubject subject = mSubjects.get(i);
         viewHolder.title.setText(subject.getName());
         imageLoader.displayImage(subject.getImageUrl(), viewHolder.image);
         // set listener before setting value

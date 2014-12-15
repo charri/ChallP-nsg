@@ -261,11 +261,15 @@ public class NsgRepository
 		StringBuilder sqlBuilder = new StringBuilder();
 		
 		sqlBuilder.append("SELECT "+ TABLE_ITEM + ".* FROM " + TABLE_ITEM);
-		sqlBuilder.append(" INNER JOIN " + TABLE_ITEM_BEACON + " ON ( " + TABLE_ITEM + ".id = " + TABLE_ITEM_BEACON + ".itemId ) ");
+        if(beacons != null) {
+            sqlBuilder.append(" INNER JOIN " + TABLE_ITEM_BEACON + " ON ( " + TABLE_ITEM + ".id = " + TABLE_ITEM_BEACON + ".itemId ) ");
+        }
 		sqlBuilder.append(" INNER JOIN " + TABLE_ITEM_SUBJECT + " ON ( " + TABLE_ITEM + ".id = " + TABLE_ITEM_SUBJECT + ".itemId ) ");
 		sqlBuilder.append(" WHERE ");
-		sqlBuilder.append("( " + StringUtils.join(beacons, FUNC_Beacon, " OR ") + ") ");
-		sqlBuilder.append(" AND ");
+        if(beacons != null) {
+            sqlBuilder.append("( " + StringUtils.join(beacons, FUNC_Beacon, " OR ") + ") ");
+            sqlBuilder.append(" AND ");
+        }
 		sqlBuilder.append("( " + StringUtils.join(subject, FUNC_Subject, " OR ") + ") ");
 				
 		return toItems(sqlBuilder);

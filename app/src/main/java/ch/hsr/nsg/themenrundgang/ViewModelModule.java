@@ -1,18 +1,17 @@
 package ch.hsr.nsg.themenrundgang;
 
-import android.content.Context;
-
 import javax.inject.Singleton;
 
 import ch.hsr.nsg.themenrundgang.applicationService.NsgApi;
-import ch.hsr.nsg.themenrundgang.dagger.InjectingApplication;
 import ch.hsr.nsg.themenrundgang.model.ItemRepository;
 import ch.hsr.nsg.themenrundgang.model.Repositories;
 import ch.hsr.nsg.themenrundgang.model.SubjectRepository;
 import ch.hsr.nsg.themenrundgang.monitor.BeaconMonitor;
-import ch.hsr.nsg.themenrundgang.monitor.BeaconMonitorFake;
+import ch.hsr.nsg.themenrundgang.monitor.BeaconService;
 import ch.hsr.nsg.themenrundgang.view.DetailActivity;
 import ch.hsr.nsg.themenrundgang.view.ItemsActivity;
+import ch.hsr.nsg.themenrundgang.view.ItemsFragmentAll;
+import ch.hsr.nsg.themenrundgang.view.ItemsFragmentBeacons;
 import ch.hsr.nsg.themenrundgang.view.SplashActivity;
 import ch.hsr.nsg.themenrundgang.view.SubjectsActivity;
 import ch.hsr.nsg.themenrundgang.view.TestActivity;
@@ -26,6 +25,7 @@ import ch.hsr.nsg.themenrundgang.view.adapter.ItemAdapter;
 import ch.hsr.nsg.themenrundgang.view.adapter.SubjectAdapter;
 import ch.hsr.nsg.themenrundgang.vm.DetailViewModel;
 import ch.hsr.nsg.themenrundgang.vm.ItemViewModel;
+import ch.hsr.nsg.themenrundgang.vm.ItemsAllViewModel;
 import ch.hsr.nsg.themenrundgang.vm.SubjectViewModel;
 import ch.hsr.nsg.themenrundgang.vm.TestViewModel;
 import ch.hsr.nsg.themenrundgang.vm.TutorialViewModel;
@@ -41,7 +41,8 @@ import dagger.Provides;
 	injects = { 
 			DetailActivity.class, TestActivity.class, TutorialActivity.class, TutorialFragment.class, SplashActivity.class,
 			TutorialFragmentInfo.class, TutorialFragmentFinal.class, TutorialFragmentItems.class, TutorialFragmentSubjects.class,
-            SubjectsActivity.class, SubjectAdapter.class, ItemsActivity.class, ItemAdapter.class
+            SubjectsActivity.class, SubjectAdapter.class, ItemsActivity.class, ItemAdapter.class,
+            BeaconService.class, ItemsFragmentAll.class, ItemsFragmentBeacons.class
 	},
 	addsTo = NsgApplicationModule.class,
 	library = true
@@ -71,7 +72,8 @@ public class ViewModelModule {
     }
 
     @Provides @Singleton
-    BeaconMonitor provideBeaconMonitor(@InjectingApplication.InjectingApplicationModule.Application Context context) {
-        return new BeaconMonitorFake(context);
+    ItemsAllViewModel provideItemsAllViewModel(NsgApi nsgApi, ItemRepository itemRepo) {
+        return new ItemsAllViewModel(nsgApi, itemRepo);
     }
+
 }

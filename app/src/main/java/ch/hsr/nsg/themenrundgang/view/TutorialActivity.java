@@ -36,6 +36,8 @@ public class TutorialActivity extends InjectingFragmentActivity {
 
 	NsgSyncTaskUi task;
 
+    int mProgress;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -83,7 +85,14 @@ public class TutorialActivity extends InjectingFragmentActivity {
 		task.execute();
 	}
 
-	public class NsgSyncTaskUi extends NsgSyncTask {
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        setProgress(mProgress);
+    }
+
+    public class NsgSyncTaskUi extends NsgSyncTask {
 
 		public NsgSyncTaskUi() {
 			super(viewModel.getApi(), viewModel.getRepositories());
@@ -92,6 +101,7 @@ public class TutorialActivity extends InjectingFragmentActivity {
 		@Override
 		protected void onProgressUpdate(Integer... values) {
 			for(Integer val : values) {
+                mProgress = val;
                 mPagerAdapter.setProgress(val);
 			}
 		}

@@ -19,14 +19,16 @@
             android:id="@+id/card_image"
             />
 
-        <CheckBox
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             style="@android:style/TextAppearance.Material.Medium"
             android:layout_margin="10dp"
-            android:id="@+id/checkbox"
+            android:id="@+id/btnDetail"
+            android:text="@string/action_next"
+            android:drawablePadding="5dp"
             android:layout_below="@id/card_image"
             />
 
@@ -39,7 +41,7 @@
             android:id="@id/title"
             android:text="Content"
             android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@id/checkbox"
+            android:layout_toLeftOf="@id/btnDetail"
             style="@android:style/TextAppearance.Material.Large"
             />
 

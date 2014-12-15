@@ -1,5 +1,6 @@
 package ch.hsr.nsg.themenrundgang;
 
+import android.app.NotificationManager;
 import android.content.Context;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -18,6 +19,8 @@ import ch.hsr.nsg.themenrundgang.model.BeaconRepository;
 import ch.hsr.nsg.themenrundgang.model.ItemRepository;
 import ch.hsr.nsg.themenrundgang.model.Repositories;
 import ch.hsr.nsg.themenrundgang.model.SubjectRepository;
+import ch.hsr.nsg.themenrundgang.monitor.BeaconMonitor;
+import ch.hsr.nsg.themenrundgang.monitor.BeaconMonitorEstimote;
 import dagger.Module;
 import dagger.Provides;
 
@@ -31,7 +34,17 @@ import dagger.Provides;
 		library = true
 )
 public class NsgApplicationModule {
-	
+
+    @Provides
+    NotificationManager provideNotificationManager(@Application Context context) {
+        return (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+    }
+
+    @Provides @Singleton
+    BeaconMonitor provideBeaconMonitor(@Application Context context) {
+        return new BeaconMonitorEstimote(context);
+    }
+
 	@Provides @Singleton
     NsgApi provideNsgApi() {
 		return new NsgApiServiceHttp();

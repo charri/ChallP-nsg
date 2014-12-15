@@ -98,6 +98,7 @@ public class SubjectsActivity extends InjectingActivity {
         });
 	}
 
+
     private String getSubjectsText() {
         return  String.format(
                 getResources().getString(R.string.subject_info_card_selected),

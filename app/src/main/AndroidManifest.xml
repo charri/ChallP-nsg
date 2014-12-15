@@ -33,6 +33,9 @@
             android:name="com.estimote.sdk.service.BeaconService"
             android:exported="false" />
 
+
+        <service android:name=".monitor.BeaconService" />
+
         <activity android:name=".view.TestActivity" >
         </activity>
         <activity android:name=".view.DetailActivity" >

@@ -1,7 +1,6 @@
 package ch.hsr.nsg.themenrundgang.monitor;
 
-import java.util.List;
-
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.os.RemoteException;
 
@@ -9,12 +8,20 @@ import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.BeaconManager.MonitoringListener;
 import com.estimote.sdk.BeaconManager.ServiceReadyCallback;
 
+import java.util.List;
+
 public class BeaconMonitorEstimote implements BeaconMonitor {
 
     BeaconManager beaconManager;
 
     public BeaconMonitorEstimote(Context context) {
         beaconManager = new BeaconManager(context);
+
+
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (!mBluetoothAdapter.isEnabled()) {
+            mBluetoothAdapter.enable();
+        }
     }
 
     @Override

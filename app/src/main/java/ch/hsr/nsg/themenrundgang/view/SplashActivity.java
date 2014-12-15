@@ -38,7 +38,6 @@ public class SplashActivity extends InjectingActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         setContentView(R.layout.activity_splash);
 
         Message msg = new Message();
