@@ -5,15 +5,33 @@ import java.util.ArrayList;
 import ch.hsr.nsg.themenrundgang.applicationService.NsgApi;
 import ch.hsr.nsg.themenrundgang.model.Subject;
 import ch.hsr.nsg.themenrundgang.model.SubjectRepository;
+import ch.hsr.nsg.themenrundgang.vm.model.UiSubject;
 
 
-public class SubjectViewModel {
+public class SubjectViewModel extends AbstractViewModel {
 
+    public final static String KEY_SUBJECTS = "subjects";
 
     private final SubjectRepository subjectRepository;
 
     public ArrayList<UiSubject> getSubjects() {
         return subjects;
+    }
+
+    public UiSubject[] getSubjectsChecked() {
+        ArrayList<Subject> rValue = new ArrayList<>();
+        for(UiSubject s : subjects) {
+            if(s.isChecked())  rValue.add(s);
+        }
+        return rValue.toArray(new UiSubject[0]);
+    }
+
+    public int getSubjectsCheckedCount() {
+        int selected = 0;
+        for(UiSubject s : subjects) {
+            if(s.isChecked()) ++selected;
+        }
+        return selected;
     }
 
     private final ArrayList<UiSubject> subjects;
@@ -27,43 +45,13 @@ public class SubjectViewModel {
         for(Subject s : subjectRepository.allToplevelSubjects()) {
             int imageId = subjectRepository.imageForSubject(s);
             String imageUrl = imageId == -1 ? null : nsgApi.getImagePath(imageId);
-            subjects.add(UiSubject.newInstance(s, imageUrl));
-        }
-    }
 
-
-    public static class UiSubject extends Subject {
-
-        public static UiSubject newInstance(Subject subject, String imageUrl) {
-            UiSubject uiSubject = new UiSubject();
-            uiSubject.setId(subject.getId());
-            uiSubject.setDescription(subject.getDescription());
-            uiSubject.setName(subject.getName());
-            uiSubject.setParentId(subject.getParentId());
-            uiSubject.setImageUrl(imageUrl);
-            return uiSubject;
+            UiSubject uiSubject = UiSubject.newInstance(s, imageUrl);
+            uiSubject.setObservable(this);
+            subjects.add(uiSubject);
         }
 
-        public boolean isChecked() {
-            return isChecked;
-        }
-
-        public void setChecked(boolean isChecked) {
-            this.isChecked = isChecked;
-        }
-
-
-        private boolean isChecked = false;
-
-        private String imageUrl;
-
-        public String getImageUrl() {
-            return imageUrl;
-        }
-
-        public void setImageUrl(String imageUrl) {
-            this.imageUrl = imageUrl;
-        }
+        notifyObservers(SubjectViewModel.KEY_SUBJECTS);
     }
 
 }

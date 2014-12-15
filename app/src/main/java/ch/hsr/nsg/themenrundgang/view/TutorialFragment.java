@@ -25,12 +25,16 @@ public class TutorialFragment extends InjectingFragment {
 		
 		ButterKnife.inject(this, rootView);
 
-        onInjected(savedInstanceState);
-		
+        onInjected();
+
 		return rootView;
 	}
-	
-	protected void onInjected(Bundle savedInstanceState) {
-		// do nothing
-	}
+
+    protected void onInjected() {
+
+    }
+
+    public void setProgress(int value) {
+
+    }
 }

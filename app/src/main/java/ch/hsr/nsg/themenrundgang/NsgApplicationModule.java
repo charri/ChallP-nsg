@@ -1,14 +1,15 @@
 package ch.hsr.nsg.themenrundgang;
 
+import android.app.NotificationManager;
 import android.content.Context;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import javax.inject.Singleton;
 
 import ch.hsr.nsg.themenrundgang.applicationService.NsgApi;
-import ch.hsr.nsg.themenrundgang.applicationService.NsgApiServiceFake;
 import ch.hsr.nsg.themenrundgang.applicationService.NsgApiServiceHttp;
 import ch.hsr.nsg.themenrundgang.dagger.InjectingApplication.InjectingApplicationModule;
 import ch.hsr.nsg.themenrundgang.dagger.InjectingApplication.InjectingApplicationModule.Application;
@@ -18,6 +19,8 @@ import ch.hsr.nsg.themenrundgang.model.BeaconRepository;
 import ch.hsr.nsg.themenrundgang.model.ItemRepository;
 import ch.hsr.nsg.themenrundgang.model.Repositories;
 import ch.hsr.nsg.themenrundgang.model.SubjectRepository;
+import ch.hsr.nsg.themenrundgang.monitor.BeaconMonitor;
+import ch.hsr.nsg.themenrundgang.monitor.BeaconMonitorEstimote;
 import dagger.Module;
 import dagger.Provides;
 
@@ -31,7 +34,17 @@ import dagger.Provides;
 		library = true
 )
 public class NsgApplicationModule {
-	
+
+    @Provides
+    NotificationManager provideNotificationManager(@Application Context context) {
+        return (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+    }
+
+    @Provides @Singleton
+    BeaconMonitor provideBeaconMonitor(@Application Context context) {
+        return new BeaconMonitorEstimote(context);
+    }
+
 	@Provides @Singleton
     NsgApi provideNsgApi() {
 		return new NsgApiServiceHttp();
@@ -56,15 +69,27 @@ public class NsgApplicationModule {
 		return provideRepositories(context);
 	}
 
-	@Provides @Singleton
+    @Provides @Singleton
     SubjectRepository provideSubjectRepository(@Application Context context) {
-		return provideRepositories(context);
-	}
+        return provideRepositories(context);
+    }
 
     @Provides @Singleton
     ImageLoader provideImageLoader(@Application Context context) {
 
-        ImageLoaderConfiguration config =  new ImageLoaderConfiguration.Builder(context).writeDebugLogs().build();
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .showImageOnLoading(R.drawable.ic_loading) // resource or drawable
+                .showImageForEmptyUri(R.drawable.ic_loading) // resource or drawable
+                .resetViewBeforeLoading(true)  // default
+                .delayBeforeLoading(0)
+                .cacheInMemory(true) // default
+                .cacheOnDisk(true) // default
+                .build();
+
+        ImageLoaderConfiguration config =  new ImageLoaderConfiguration.Builder(context)
+                .writeDebugLogs()
+                .defaultDisplayImageOptions(options)
+                .build();
 
         ImageLoader imageLoader = ImageLoader.getInstance();
         imageLoader.init(config);

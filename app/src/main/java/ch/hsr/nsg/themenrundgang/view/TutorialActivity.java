@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.widget.Toolbar;
+
+import com.viewpagerindicator.LinePageIndicator;
 
 import javax.inject.Inject;
 
@@ -23,28 +25,74 @@ public class TutorialActivity extends InjectingFragmentActivity {
 
 	@InjectView(R.id.pager)
 	ViewPager mPager;
-	
-	private PagerAdapter mPagerAdapter;
 
-	private NsgSyncTaskUi task;
+    @InjectView(R.id.toolbar)
+    Toolbar mToolbar;
+
+    @InjectView(R.id.indicator)
+    LinePageIndicator indicator;
+	
+	TutorialPagerAdapter mPagerAdapter;
+
+	NsgSyncTaskUi task;
+
+    int mProgress;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_tutorial);
+        mToolbar.inflateMenu(R.menu.menu_empty);
 
 		mPagerAdapter = new TutorialPagerAdapter(getSupportFragmentManager());
 		
 		mPager.setPageTransformer(true, new DepthPageTransformer());
-		mPager.setAdapter(mPagerAdapter); 
-			
+		mPager.setAdapter(mPagerAdapter);
+        indicator.setViewPager(mPager);
+        indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position) {
+                    case 0:
+                    case 3:
+                        getWindow().setStatusBarColor(getResources().getColor(R.color.green_dark));
+                        mToolbar.setBackgroundColor(getResources().getColor(R.color.green));
+                        break;
+                    case 1:
+                        getWindow().setStatusBarColor(getResources().getColor(R.color.red_dark));
+                        mToolbar.setBackgroundColor(getResources().getColor(R.color.red));
+                        break;
+                    case 2:
+                        getWindow().setStatusBarColor(getResources().getColor(R.color.blue_dark));
+                        mToolbar.setBackgroundColor(getResources().getColor(R.color.blue));
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 		
 		task = new NsgSyncTaskUi();
 		task.execute();
 	}
 
-	public class NsgSyncTaskUi extends NsgSyncTask {
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        setProgress(mProgress);
+    }
+
+    public class NsgSyncTaskUi extends NsgSyncTask {
 
 		public NsgSyncTaskUi() {
 			super(viewModel.getApi(), viewModel.getRepositories());
@@ -53,13 +101,14 @@ public class TutorialActivity extends InjectingFragmentActivity {
 		@Override
 		protected void onProgressUpdate(Integer... values) {
 			for(Integer val : values) {
-				System.out.println("Values :" + val);
+                mProgress = val;
+                mPagerAdapter.setProgress(val);
 			}
 		}
 
 		@Override
 		protected void onPostExecute(Void result) {
-			// TODO:
+
 		}
 	}
 
@@ -73,24 +122,35 @@ public class TutorialActivity extends InjectingFragmentActivity {
 	}
 
 	private class TutorialPagerAdapter extends FragmentStatePagerAdapter {
-		public TutorialPagerAdapter(FragmentManager fm) {
-			super(fm);
+
+        private final TutorialFragment[] tutorialFragments;
+
+        public TutorialPagerAdapter(FragmentManager fm) {
+            super(fm);
+
+            tutorialFragments = new TutorialFragment[] {
+                TutorialFragmentInfo.newInstance(),
+                TutorialFragmentSubjects.newInstance(),
+                TutorialFragmentItems.newInstance(),
+                TutorialFragmentFinal.newInstance()
+            };
 		}
 
 		@Override
 		public Fragment getItem(int position) {
-			switch(position) {
-			case 0: return TutorialFragmentInfo.newInstance();
-			case 1: return TutorialFragmentSubjects.newInstance();
-			case 2: return TutorialFragmentItems.newInstance();
-			case 3: return TutorialFragmentFinal.newInstance();
-			}
-			return null;
+
+			return tutorialFragments[position];
 		}
+
+        public void setProgress(int value) {
+            for(TutorialFragment frag : tutorialFragments) {
+                frag.setProgress(value);
+            }
+        }
 
 		@Override
 		public int getCount() {
-			return 4;
+			return tutorialFragments.length;
 		}
 	}
 }

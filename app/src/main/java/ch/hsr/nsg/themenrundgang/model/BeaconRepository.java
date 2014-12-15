@@ -6,4 +6,6 @@ public interface BeaconRepository {
 	boolean hasBeacon(String beaconId);
 	
 	Beacon beaconById(String beaconId);
+
+    Beacon[] allBeacons();
 }

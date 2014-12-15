@@ -29,12 +29,18 @@
 package ch.hsr.nsg.themenrundgang.dagger;
 
 import android.app.Activity;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import butterknife.ButterKnife;
 import ch.hsr.nsg.themenrundgang.ViewModelModule;
+import ch.hsr.nsg.themenrundgang.utils.OnListener;
+import ch.hsr.nsg.themenrundgang.utils.OnManager;
+import ch.hsr.nsg.themenrundgang.utils.OnObserver;
 import dagger.ObjectGraph;
 
 import static ch.hsr.nsg.themenrundgang.dagger.Preconditions.checkState;
@@ -45,8 +51,9 @@ import static ch.hsr.nsg.themenrundgang.dagger.Preconditions.checkState;
  */
 public class InjectingActivity
         extends Activity
-        implements Injector {
+        implements Injector, OnObserver {
     private ObjectGraph mObjectGraph;
+    private OnManager mOnManager;
 
     /**
      * Gets this Activity's object graph.
@@ -81,7 +88,7 @@ public class InjectingActivity
     protected void onCreate(android.os.Bundle savedInstanceState) {
         // extend the application-scope object graph with the modules for this activity
         mObjectGraph = ((Injector) getApplication()).getObjectGraph().plus(getModules().toArray());
-
+        mOnManager = new OnManager();
         // now we can inject ourselves
         inject(this);
 
@@ -118,4 +125,19 @@ public class InjectingActivity
         result.add(new ViewModelModule());
         return result;
     }
+
+    @Override
+    public void update(Observable observable, Object data) {
+        Log.i("Injecting", "update");
+        mOnManager.update(observable, data);
+    }
+    @Override
+    public void addOnListener(String key, OnListener listener) {
+        mOnManager.addOnListener(key, listener);
+    }
+    @Override
+    public boolean removeOnListener(String key, OnListener listener) {
+        return mOnManager.removeOnListener(key, listener);
+    }
+
 }

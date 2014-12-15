@@ -1,15 +1,39 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Naturkundemuseum St. Gallen Themenrundgang</string>
+    <string name="app_name">Naturmuseum St. Gallen</string>
     <string name="action_search">Suchen</string>
+    <string name="action_next">Weiter</string>
     <string name="detail_activity_missing_parameter_msg">Kein Exponat ausgewählt</string>
-    <string name="detail_activity_item_not_found_msg">Das ausgewählte Exponat existiert nicht.</string>
-    <string name="detail_activity_unknown_error_msg">Ein unbekannter Fehler ist aufgetreten.</string>
-    <string name="transition_detail_image">transition_detail_image</string>
-    <string name="title_activity_detail_image">DetailImageActivity</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="image_caption_image">Bild</string>
-    <string name="image_caption_of">von</string>
+
+    <string name="items_near">In Deiner Nähe</string>
+    <string name="items_all">Alle Exponente</string>
+    <string name="items_info_card_title">Sei ein Entdecker!</string>
+    <string name="items_info_card_info">Passt ein Exponat zu Deinen Themen, erscheint es in der Liste, sobald Du in der Nähe bist! Du kannst Dir aber auch Zuhause noch in Ruhe alle anderen Exponate ansehen.</string>
+
+    <string name="activity_subjects">Themen</string>
+    <string name="activity_items">Exponate entdecken</string>
+    <string name="activity_tutorial">Willkommen</string>
+
+    <string name="subject_info_card_title">Welche Themen interessieren Dich?</string>
+    <string name="subject_info_card_info">Du kannst jederzeit hierhin zurückkehren und deine Auswahl anpassen.</string>
+    <string name="subject_info_card_selected">%1$d von %2$d ausgewählt</string>
+
+    <string name="tutorial_info_title">Willkommen zum Themenrundgang!</string>
+    <string name="tutorial_info_text">Diese App hilft Dir dabei, Dich noch besser in unserem Museum zurechtzufinden. \n\nWähle Deine Lieblingsthemen und wir zeigen Dir interessante Hintergrundinformationen - je nach dem wo Du gerade bist!</string>
+
+    <string name="tutorial_subjects_title">Themen auswählen</string>
+    <string name="tutorial_subjects_text">Wähle aus, zu welchen Themen Du Zusatzinformationen sehen möchtest. Du kannst die Themen auch später jederzeit ändern.</string>
+
+    <string name="tutorial_items_title">Exponate entdecken</string>
+    <string name="tutorial_items_text">Bewege dich frei durch unser Museum und immer, wenn ein interessantes Exponat in deiner Nähe ist sind alle Infos dazu nur einen Klick weit entfernt! </string>
+
+    <string name="tutorial_final_title">Nur noch ein Moment...</string>
+    <string name="tutorial_final_text">Die neusten Informationen werden soeben für dich heruntergeladen. Sobald die Daten gespeichert sind, kannst du mit dem Themenauswahl beginnen. </string>
+    <string name="tutorial_final_thanks">Danke für dein Besuch an der Naturmuseum St. Gallen. Wir wünschen dir viel Spass!</string>
+    <string name="tutorial_final_starten">Starten</string>
+
+    <string name="tutorial_icon_info">Infos Infos Infos</string>
+    <string name="tutorial_icon_sound">Lass dir Inhalte vorlesen lassen.</string>
+
+    <string name="notification_perm_title">Exponate entdecken</string>
 </resources>

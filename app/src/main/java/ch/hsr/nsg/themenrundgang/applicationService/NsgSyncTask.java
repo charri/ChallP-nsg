@@ -13,7 +13,7 @@ public class NsgSyncTask extends AsyncTask<Void, Integer, Void> {
 	private final NsgApi api;
 	private final Repositories repos;
 	
-	private static final int STEPS = 5;
+	private static final int STEPS = 4;
 	private float step = 0.0f;
 	
 	public NsgSyncTask(NsgApi api, Repositories repos) {
