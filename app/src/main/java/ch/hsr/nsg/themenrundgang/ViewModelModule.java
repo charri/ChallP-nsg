@@ -52,8 +52,8 @@ public class ViewModelModule {
 	  return new TestViewModel(itemRepo);
 	}
 	
-	@Provides @Singleton DetailViewModel provideDetailViewModel(ItemRepository itemRepo, SubjectRepository subjectRepo) {
-		return new DetailViewModel(itemRepo, subjectRepo);
+	@Provides @Singleton DetailViewModel provideDetailViewModel(NsgApi api, ItemRepository itemRepo) {
+		return new DetailViewModel(api, itemRepo);
 	}
 	
 	@Provides @Singleton TutorialViewModel provideTutorialViewModel(NsgApi nsgApi, Repositories repos) {
