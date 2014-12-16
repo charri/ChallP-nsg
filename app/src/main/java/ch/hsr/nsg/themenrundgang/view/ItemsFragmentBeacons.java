@@ -63,6 +63,12 @@ public class ItemsFragmentBeacons extends InjectingFragment implements ItemViewM
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getResources().getDrawable(R.drawable.divider_cardview)));
         mAdapter = getObjectGraph().get(ItemAdapter.class);
         mAdapter.setSubjects(mSubjects);
+        mAdapter.setOnClickListener(new ItemAdapter.OnClickListener() {
+            @Override
+            public void onClick(View view, UiItem item) {
+                startActivity(DetailActivity.getIntent(getActivity(), item));
+            }
+        });
         mRecyclerView.setAdapter(mAdapter);
 
         return rootView;

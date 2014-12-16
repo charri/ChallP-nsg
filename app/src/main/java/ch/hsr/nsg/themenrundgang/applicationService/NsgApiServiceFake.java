@@ -13,7 +13,7 @@ public class NsgApiServiceFake implements NsgApi {
 		
 		Item[] items = new Item[5];
 		items[0] = newItem(1, "Geologische Karte der Kantone SG, AI, AR", "Unsere Region hat ein vielfältige und zum Teil recht komplexe Geologie. Dies hängt mit ihrer Entstehungsgeschichte zusammen.", new int[] { 1 }, new String[] { "1.0" }, new int[] { 1 });
-		items[1] = newItem(2, "Braunbär", "Der Braunbär (Ursus arctos) ist eine Säugetierart aus der Familie der Bären (Ursidae). Er kommt in mehreren Unterarten – darunter Europäischer Braunbär (U. a. arctos), Grizzlybär (U. a. horribilis) und Kodiakbär (U. a. middendorffi) – in Eurasien und Nordamerika vor.", new int[] { 2 }, new String[] { "2.0" }, new int[] { 2, 3 });
+		items[1] = newItem(2, "Braunbär", "Der Braunbär (Ursus arctos) ist eine Säugetierart aus der Familie der Bären (Ursidae). Er kommt in mehreren Unterarten – darunter Europäischer Braunbär (U. a. arctos), Grizzlybär (U. a. horribilis) und Kodiakbär (U. a. middendorffi) – in Eurasien und Nordamerika vor.", new int[] { 2 }, new String[] { "2.0" }, new int[] { 2 });
 		items[2] = newItem(3, "Grosser Panda", "Der Große Panda (Ailuropoda melanoleuca), oft auch einfach als Pandabär bezeichnet, ist eine Säugetierart aus der Familie der Bären (Ursidae). Als Symbol des WWF und manchmal auch des Artenschutzes allgemein hat er trotz seines sehr beschränkten Verbreitungsgebiets weltweite Bekanntheit erlangt. In älterer deutscher Literatur wird der Große Panda auch Bambusbär oder Prankenbär genannt.", new int[] { 2 }, new String[] { "2.0", "2.1" }, new int[] { });
 		items[3] = newItem(4, "Tisch mit Bährennahrung", "Bären sind meist Allesfresser, die je nach Art und Jahreszeit in unterschiedlichem Ausmaß pflanzliche und tierische Nahrung zu sich nehmen. ", new int[] { 2 }, new String[] { "2.1" }, new int[] { });
 		items[4] = newItem(5, "Bährenhöhle", "Bären sind Einzelgänger und führen generell eine eher dämmerungs- oder nachtaktive Lebensweise (mit Ausnahme des Eisbären)", new int[] { 2 }, new String[] { "2.1" }, new int[] { });
@@ -90,7 +90,7 @@ public class NsgApiServiceFake implements NsgApi {
 	
 	private Addition newAddition(int id, int itemId, String key, String value) {
 		Addition addition = new Addition();
-		
+
 		addition.setId(id);
 		addition.setItemId(itemId);
 		addition.setKey(key);

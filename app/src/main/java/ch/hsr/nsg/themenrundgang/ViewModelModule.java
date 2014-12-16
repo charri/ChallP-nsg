@@ -10,6 +10,8 @@ import ch.hsr.nsg.themenrundgang.model.SubjectRepository;
 import ch.hsr.nsg.themenrundgang.monitor.BeaconMonitor;
 import ch.hsr.nsg.themenrundgang.monitor.BeaconService;
 import ch.hsr.nsg.themenrundgang.view.DetailActivity;
+import ch.hsr.nsg.themenrundgang.view.DetailImageActivity;
+import ch.hsr.nsg.themenrundgang.view.ImageFragmentPage;
 import ch.hsr.nsg.themenrundgang.view.ItemsActivity;
 import ch.hsr.nsg.themenrundgang.view.ItemsFragmentAll;
 import ch.hsr.nsg.themenrundgang.view.ItemsFragmentBeacons;
@@ -42,7 +44,8 @@ import dagger.Provides;
 			DetailActivity.class, TestActivity.class, TutorialActivity.class, TutorialFragment.class, SplashActivity.class,
 			TutorialFragmentInfo.class, TutorialFragmentFinal.class, TutorialFragmentItems.class, TutorialFragmentSubjects.class,
             SubjectsActivity.class, SubjectAdapter.class, ItemsActivity.class, ItemAdapter.class,
-            BeaconService.class, ItemsFragmentAll.class, ItemsFragmentBeacons.class
+            BeaconService.class, ItemsFragmentAll.class, ItemsFragmentBeacons.class, ImageFragmentPage.class,
+            DetailImageActivity.class
 	},
 	addsTo = NsgApplicationModule.class,
 	library = true
@@ -53,8 +56,8 @@ public class ViewModelModule {
 	  return new TestViewModel(itemRepo);
 	}
 	
-	@Provides @Singleton DetailViewModel provideDetailViewModel(ItemRepository itemRepo, SubjectRepository subjectRepo) {
-		return new DetailViewModel(itemRepo, subjectRepo);
+	@Provides @Singleton DetailViewModel provideDetailViewModel(NsgApi api, ItemRepository itemRepo) {
+		return new DetailViewModel(api, itemRepo);
 	}
 	
 	@Provides @Singleton TutorialViewModel provideTutorialViewModel(NsgApi nsgApi, Repositories repos) {

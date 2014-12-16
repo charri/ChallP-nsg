@@ -170,6 +170,30 @@ public class NsgRepository
         return imageResult;
     }
 
+    public int[] imagesForItem(Item item) {
+
+        StringBuilder sqlBuilder = new StringBuilder();
+
+        sqlBuilder.append("SELECT "+ TABLE_ITEM_IMAGE + ".imageId FROM " + TABLE_ITEM_IMAGE);
+        sqlBuilder.append(" INNER JOIN " + TABLE_ITEM + " ON ( " + TABLE_ITEM + ".id = " + TABLE_ITEM_IMAGE + ".itemId ) ");
+        sqlBuilder.append(" WHERE ");
+        sqlBuilder.append(" (" + TABLE_ITEM +".id = "+ item.getId() +") ");
+
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(sqlBuilder.toString(), null);
+        int[] images = new int[cursor.getCount()];
+        int count = 0;
+        while(cursor.moveToNext()) {
+            images[count++] = cursor.getInt(0);
+        }
+
+        cursor.close();
+        db.close();
+
+        return images;
+    }
+
     @Override
 	public void insertOrUpdate(Item item) {
 		ContentValues contentValues = new ContentValues();
@@ -213,18 +237,19 @@ public class NsgRepository
 		Cursor cursor = db.rawQuery(sqlBuilder.toString(), null);
 		
 		List<Item> items = new ArrayList<Item>();
-		
+
 		while(cursor.moveToNext()) {
 			Item item = new Item();
 			item.setName(cursor.getString(cursor.getColumnIndex("name")));
 			item.setDescription(cursor.getString(cursor.getColumnIndex("description")));
 			item.setId(cursor.getInt(cursor.getColumnIndex("id")));
+            item.setImages(imagesForItem(item));
 			items.add(item);
 		}
 		
 		cursor.close();
 		db.close();
-		
+
 		return items.toArray(new Item[0]);
 	}
 
@@ -400,7 +425,10 @@ public class NsgRepository
 		item.setName(cursor.getString(cursor.getColumnIndex("name")));
 		item.setDescription(cursor.getString(cursor.getColumnIndex("description")));
 		item.setId(cursor.getInt(cursor.getColumnIndex("id")));
-				
+        cursor.close();
+        db.close();
+        item.setImages(imagesForItem(item));
+
 		return item; 
 	}
 

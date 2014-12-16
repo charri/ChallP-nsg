@@ -59,7 +59,8 @@ public class ItemViewModel {
         mItems = new ArrayList<UiItem>(items.length);
 
         for(Item item : items) {
-            String imageUrl = item.getId() == -1 ? null : nsgApi.getImagePath(item.getId());
+            int randomImage = item.getRandomImage();
+            String imageUrl = randomImage == -1 ? null : nsgApi.getImagePath(randomImage);
 
             mItems.add(UiItem.newInstance(item, imageUrl));
         }

@@ -1,5 +1,7 @@
 package ch.hsr.nsg.themenrundgang.model;
 
+import java.util.Random;
+
 public class Item {
 	
 	
@@ -45,5 +47,10 @@ public class Item {
 	public void setImages(int[] images) {
 		this.images = images;
 	}
-	
+
+
+    public int getRandomImage() {
+        if(images == null || images.length == 0) return -1;
+        return images[new Random().nextInt(images.length)];
+    }
 }

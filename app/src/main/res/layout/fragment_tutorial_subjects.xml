@@ -40,6 +40,12 @@ android:padding="16dp"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_height="wrap_content">
 
+        <VideoView
+            android:layout_width="250dp"
+            android:id="@+id/video"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_height="255dp" />
+
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="300dp"

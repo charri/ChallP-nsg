@@ -35,11 +35,9 @@
 
 
         <service android:name=".monitor.BeaconService" />
-
-        <activity android:name=".view.TestActivity" >
-        </activity>
-        <activity android:name=".view.DetailActivity" >
-        </activity>
+        <activity android:name=".view.TestActivity" />
+        <activity android:name=".view.DetailActivity" />
+        <activity android:name=".view.DetailImageActivity" />
         <activity android:name=".view.TutorialActivity" />
         <activity android:name=".view.SplashActivity"  android:noHistory="true">
             <intent-filter>
@@ -47,12 +45,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".view.ItemsActivity">
-        </activity>
-        <activity android:name="ch.hsr.nsg.themenrundgang.view.SubjectsActivity" android:label="@string/activity_subjects">
-
-        </activity>
+        <activity android:name=".view.ItemsActivity" />
+        <activity android:name=".view.SubjectsActivity" />
     </application>
 
 </manifest>

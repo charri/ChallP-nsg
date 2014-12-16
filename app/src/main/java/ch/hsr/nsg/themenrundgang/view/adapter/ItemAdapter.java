@@ -1,6 +1,5 @@
 package ch.hsr.nsg.themenrundgang.view.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,7 +17,6 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import ch.hsr.nsg.themenrundgang.R;
-import ch.hsr.nsg.themenrundgang.dagger.InjectingApplication;
 import ch.hsr.nsg.themenrundgang.model.Subject;
 import ch.hsr.nsg.themenrundgang.vm.ItemViewModel;
 import ch.hsr.nsg.themenrundgang.vm.model.UiItem;
@@ -26,14 +24,18 @@ import ch.hsr.nsg.themenrundgang.vm.model.UiItem;
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
 
-    private final Context mContext;
     private final ItemViewModel mViewModel;
     private final ImageLoader imageLoader;
     ArrayList<UiItem> mItems;
 
+    public void setOnClickListener(OnClickListener onClickListener) {
+        this.mOnClickListener = onClickListener;
+    }
+
+    private OnClickListener mOnClickListener;
+
     @Inject
-    public ItemAdapter(@InjectingApplication.InjectingApplicationModule.Application Context context, ItemViewModel viewModel, ImageLoader imageLoader) {
-        mContext = context;
+    public ItemAdapter(ItemViewModel viewModel, ImageLoader imageLoader) {
         mViewModel = viewModel;
         this.imageLoader = imageLoader;
         mItems = new ArrayList<>();
@@ -62,6 +64,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         viewHolder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(mOnClickListener != null) mOnClickListener.onClick(v, item);
             }
         });
     }
@@ -95,5 +98,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
             ButterKnife.inject(this, itemView);
         }
+    }
+
+    public interface OnClickListener {
+        void onClick(View view, UiItem item);
     }
 }
