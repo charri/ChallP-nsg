@@ -12,10 +12,10 @@ public class Beacon {
 
     public Beacon() {}
 
-    public Beacon(String beaconId, int major, int minor) {
-        this.beaconId = beaconId;
+    public Beacon(int major, int minor) {
         this.major = major;
         this.minor = minor;
+        setBeaconId();
     }
 	
 	public String getBeaconId() {
@@ -48,6 +48,10 @@ public class Beacon {
 
     public void setProximityUUID(String proximityUUID) {
         this.proximityUUID = proximityUUID;
+    }
+
+    private void setBeaconId() {
+        beaconId = proximityUUID + "/" + major + "/" + minor;
     }
 
     @Override

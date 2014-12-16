@@ -1,12 +1,13 @@
 package ch.hsr.nsg.themenrundgang.monitor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import ch.hsr.nsg.themenrundgang.model.Beacon;
 
 public class BeaconScannerFake extends Service {
@@ -101,8 +102,7 @@ public class BeaconScannerFake extends Service {
         List<Beacon> monitoredBeacons = new ArrayList<Beacon>();
         while (monitoredBeacons.size() != beaconsInEnteredLocation) {
             int beaconId = getRandomNumberInRange(0, NOF_BEACONS_PER_LOCATION[enteredLocationId - 1]);
-            String beaconName = enteredLocationId + "/" + beaconId;
-            Beacon beacon = new Beacon(beaconName, enteredLocationId, beaconId);
+            Beacon beacon = new Beacon(enteredLocationId, beaconId);
             if (!monitoredBeacons.contains(beacon)) {
                 monitoredBeacons.add(beacon);
             }
@@ -123,8 +123,7 @@ public class BeaconScannerFake extends Service {
             }
 
             int beaconId = getRandomNumberInRange(0, NOF_BEACONS_PER_LOCATION[locationId - 1]);
-            String beaconName = locationId + "/" + beaconId;
-            Beacon beacon = new Beacon(beaconName, locationId, beaconId);
+            Beacon beacon = new Beacon(locationId, beaconId);
             if (!monitoredBeacons.contains(beacon)) {
                 monitoredBeacons.add(beacon);
                 beaconsInLocation++;

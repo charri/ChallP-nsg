@@ -3,6 +3,7 @@ package ch.hsr.nsg.themenrundgang;
 import javax.inject.Singleton;
 
 import ch.hsr.nsg.themenrundgang.applicationService.NsgApi;
+import ch.hsr.nsg.themenrundgang.model.BeaconRepository;
 import ch.hsr.nsg.themenrundgang.model.ItemRepository;
 import ch.hsr.nsg.themenrundgang.model.Repositories;
 import ch.hsr.nsg.themenrundgang.model.SubjectRepository;
@@ -66,8 +67,8 @@ public class ViewModelModule {
     }
 
     @Provides @Singleton
-    ItemViewModel provideItemViewModel(NsgApi nsgApi, ItemRepository itemRepo, BeaconMonitor beaconMonitor) {
-        return new ItemViewModel(nsgApi, itemRepo, beaconMonitor);
+    ItemViewModel provideItemViewModel(NsgApi nsgApi, ItemRepository itemRepo, BeaconRepository beaconRepo, BeaconMonitor beaconMonitor) {
+        return new ItemViewModel(nsgApi, itemRepo, beaconRepo, beaconMonitor);
     }
 
 }

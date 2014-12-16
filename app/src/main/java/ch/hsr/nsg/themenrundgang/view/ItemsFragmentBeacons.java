@@ -17,14 +17,13 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import ch.hsr.nsg.themenrundgang.R;
 import ch.hsr.nsg.themenrundgang.dagger.InjectingFragment;
-import ch.hsr.nsg.themenrundgang.monitor.MonitoringListenerCallback;
-import ch.hsr.nsg.themenrundgang.monitor.Region;
 import ch.hsr.nsg.themenrundgang.ui.DividerItemDecoration;
 import ch.hsr.nsg.themenrundgang.view.adapter.ItemAdapter;
 import ch.hsr.nsg.themenrundgang.vm.ItemViewModel;
+import ch.hsr.nsg.themenrundgang.vm.model.UiItem;
 import ch.hsr.nsg.themenrundgang.vm.model.UiSubject;
 
-public class ItemsFragmentBeacons extends InjectingFragment {
+public class ItemsFragmentBeacons extends InjectingFragment implements ItemViewModel.UiItemListener {
 
     private final static String EXTRA_SUBJECTS = ItemsFragmentBeacons.class.getName() + ":subjects";
 
@@ -66,21 +65,16 @@ public class ItemsFragmentBeacons extends InjectingFragment {
         mAdapter.setSubjects(mSubjects);
         mRecyclerView.setAdapter(mAdapter);
 
-        mViewModel.setBeaconMonitorListener(new MonitoringListenerCallback() {
-            @Override
-            public void onEnterRegion(Region region) {
-                //mAdapter.addItem(null);
-            }
-
-            @Override
-            public void onExitRegion(Region region) {
-                //mAdapter.removeItem(null);
-            }
-        });
-
-
         return rootView;
     }
 
+    @Override
+    public void addItem(UiItem item) {
+        mAdapter.addItem(item);
+    }
 
+    @Override
+    public void removeItem(UiItem item) {
+        mAdapter.removeItem(item);
+    }
 }

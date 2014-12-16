@@ -3,7 +3,7 @@ package ch.hsr.nsg.themenrundgang.monitor;
 import ch.hsr.nsg.themenrundgang.model.Beacon;
 
 public class Region {
-    public final static String UUID = "nsg";
+    public final static String UUID = "B9407F30-F5F8-466E-AFF9-25556B57FE6D";
 
     private String identifier;
     private String proximityUUID;

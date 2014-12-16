@@ -50,7 +50,9 @@ public class BeaconService extends InjectingService {
                 .setTicker("Naturmuseum Beacon-Suche")
                 .setSmallIcon(R.drawable.ic_stat_device_bluetooth_searching)
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher))
-                .setContentTitle(getResources().getString(R.string.notification_perm_title));
+                .setContentTitle(getResources().getString(R.string.notification_perm_title))
+                .setContentText("")
+                .setContentIntent(null);
 
         Notification notification = builder.build();
 
