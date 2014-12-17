@@ -96,7 +96,6 @@ public class ItemViewModel {
 
                     mListener.addItem(uiItem);
 
-
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {
@@ -143,6 +142,10 @@ public class ItemViewModel {
         for (Region region : mAllBeaconRegions) {
             mBeaconMonitor.startMonitoring(region);
         }
+    }
+
+    public void stopMonitor() {
+        mBeaconMonitor.disconnect();
     }
 
     public interface UiItemListener {

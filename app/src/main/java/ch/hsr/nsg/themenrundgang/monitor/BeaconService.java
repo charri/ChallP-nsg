@@ -54,8 +54,8 @@ public class BeaconService extends InjectingService {
                 .setSmallIcon(R.drawable.ic_stat_device_bluetooth_searching)
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher))
                 .setContentTitle(getResources().getString(R.string.notification_perm_title))
-                .setContentText(getResources().getString(R.string.notification_perm_text))
-                .setContentIntent(pendingIntent);
+                .setContentText(getResources().getString(R.string.notification_perm_text));
+                //.setContentIntent(pendingIntent);
 
         Notification notification = builder.build();
 

@@ -1,6 +1,7 @@
 package ch.hsr.nsg.themenrundgang.view;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -77,22 +78,35 @@ public class ItemsFragmentBeacons extends InjectingFragment implements ItemViewM
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        mViewModel.stopMonitor();
+    }
+
+    @Override
     public void addItem(final UiItem item) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mAdapter.addItem(item);
-            }
-        });
+        Activity activity = getActivity();
+        if (activity != null) {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mAdapter.addItem(item);
+                }
+            });
+        }
     }
 
     @Override
     public void removeItem(final UiItem item) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mAdapter.removeItem(item);
-            }
-        });
+        Activity activity = getActivity();
+        if (activity != null) {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mAdapter.removeItem(item);
+                }
+            });
+        }
     }
 }

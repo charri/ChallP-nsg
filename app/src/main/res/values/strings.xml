@@ -36,7 +36,7 @@
     <string name="tutorial_icon_sound">Lass dir Inhalte vorlesen lassen.</string>
 
     <string name="notification_perm_title">Exponate entdecken</string>
-    <string name="notification_perm_text">Du kriegst</string>
+    <string name="notification_perm_text">Es wird nach Objekten in der Nähe gesucht</string>
     <string name="action_settings">Settings</string>
     <string name="detail_activity_item_not_found_msg">Es konnten keine weiteren Informationen zu diesem Exponat gefunden werden.</string>
     <string name="detail_activity_unknown_error_msg">Ein unbekannter Fehler ist aufgetreten.</string>

@@ -8,7 +8,6 @@ import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
@@ -16,6 +15,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import ch.hsr.nsg.themenrundgang.R;
 import ch.hsr.nsg.themenrundgang.dagger.InjectingFragmentActivity;
+import ch.hsr.nsg.themenrundgang.monitor.BeaconService;
 import ch.hsr.nsg.themenrundgang.ui.SlidingTabLayout;
 import ch.hsr.nsg.themenrundgang.vm.model.UiSubject;
 
@@ -61,11 +61,14 @@ public class ItemsActivity extends InjectingFragmentActivity {
         tabLayout.setViewPager(mViewPager);
         tabLayout.setDividerColors(Color.TRANSPARENT);
 
+        startService(new Intent(this, BeaconService.class));
     }
 
     @Override
     protected void onDestroy() {
+        super.onDestroy();
 
+        stopService(new Intent(this, BeaconService.class));
     }
 
 
@@ -73,7 +76,6 @@ public class ItemsActivity extends InjectingFragmentActivity {
     public void OnIconClick() {
 
         mInfoCard.setVisibility(View.GONE);
-
     }
 
     private class ItemsPagerAdapter extends FragmentStatePagerAdapter {
