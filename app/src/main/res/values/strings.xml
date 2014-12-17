@@ -6,7 +6,7 @@
     <string name="transition_detail_image">transition_detail_image</string>
 
     <string name="items_near">In Deiner Nähe</string>
-    <string name="items_all">Alle Exponente</string>
+    <string name="items_all">Alle Exponate</string>
     <string name="items_info_card_title">Sei ein Entdecker!</string>
     <string name="items_info_card_info">Passt ein Exponat zu Deinen Themen, erscheint es in der Liste, sobald Du in der Nähe bist! Du kannst Dir aber auch Zuhause noch in Ruhe alle anderen Exponate ansehen.</string>
 
@@ -32,7 +32,7 @@
     <string name="tutorial_final_thanks">Danke für dein Besuch an der Naturmuseum St. Gallen. Wir wünschen dir viel Spass!</string>
     <string name="tutorial_final_starten">Starten</string>
 
-    <string name="tutorial_icon_info">Infos Infos Infos</string>
+    <string name="tutorial_icon_info">Infos</string>
     <string name="tutorial_icon_sound">Lass dir Inhalte vorlesen lassen.</string>
 
     <string name="notification_perm_title">Exponate entdecken</string>
