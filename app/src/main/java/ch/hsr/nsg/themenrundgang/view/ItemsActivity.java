@@ -2,6 +2,7 @@ package ch.hsr.nsg.themenrundgang.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import ch.hsr.nsg.themenrundgang.R;
 import ch.hsr.nsg.themenrundgang.dagger.InjectingFragmentActivity;
+import ch.hsr.nsg.themenrundgang.ui.SlidingTabLayout;
 import ch.hsr.nsg.themenrundgang.vm.model.UiSubject;
 
 public class ItemsActivity extends InjectingFragmentActivity {
@@ -22,11 +24,12 @@ public class ItemsActivity extends InjectingFragmentActivity {
     @InjectView(R.id.pager)
     ViewPager mViewPager;
 
-    @InjectView(R.id.pager_title_strip)
-    PagerTitleStrip mPagerTitleStrip;
 
     @InjectView(R.id.info_card)
     View mInfoCard;
+
+    @InjectView(R.id.sliding_tabs)
+    SlidingTabLayout tabLayout;
 
     UiSubject[] mSubjects;
 
@@ -55,6 +58,8 @@ public class ItemsActivity extends InjectingFragmentActivity {
 
         mAdapter = new ItemsPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mAdapter);
+        tabLayout.setViewPager(mViewPager);
+        tabLayout.setDividerColors(Color.TRANSPARENT);
 
     }
 
