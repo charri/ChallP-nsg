@@ -254,7 +254,7 @@ public class NsgRepository
 	}
 
 	@Override
-	public Item[] itemsForBeacon(Beacon beacon) {
+	public Item[] itemsFor(Beacon beacon) {
 	
 		StringBuilder sqlBuilder = new StringBuilder();
 		
@@ -281,28 +281,27 @@ public class NsgRepository
 	};
 
 	@Override
-	public Item[] itemsForSubject(Beacon[] beacons, Subject[] subject) {
+	public Item[] itemsFor(Beacon beacon, Subject[] subjects) {
 		
 		StringBuilder sqlBuilder = new StringBuilder();
-		
-		sqlBuilder.append("SELECT "+ TABLE_ITEM + ".* FROM " + TABLE_ITEM);
-        if(beacons != null) {
-            sqlBuilder.append(" INNER JOIN " + TABLE_ITEM_BEACON + " ON ( " + TABLE_ITEM + ".id = " + TABLE_ITEM_BEACON + ".itemId ) ");
-        }
-		sqlBuilder.append(" INNER JOIN " + TABLE_ITEM_SUBJECT + " ON ( " + TABLE_ITEM + ".id = " + TABLE_ITEM_SUBJECT + ".itemId ) ");
-		sqlBuilder.append(" WHERE ");
-        if(beacons != null) {
-            sqlBuilder.append("( " + StringUtils.join(beacons, FUNC_Beacon, " OR ") + ") ");
-            sqlBuilder.append(" AND ");
-        }
-		sqlBuilder.append("( " + StringUtils.join(subject, FUNC_Subject, " OR ") + ") ");
-				
+
+        sqlBuilder.append("SELECT "+ TABLE_ITEM + ".* FROM " + TABLE_ITEM);
+        sqlBuilder.append(" WHERE id IN (");
+        sqlBuilder.append(" SELECT " + TABLE_ITEM_SUBJECT + ".itemId FROM " + TABLE_ITEM_SUBJECT);
+        sqlBuilder.append(" WHERE ");
+        sqlBuilder.append(StringUtils.join(subjects, FUNC_Subject, " OR "));
+        sqlBuilder.append(") AND id IN ( ");
+
+        sqlBuilder.append(" SELECT " + TABLE_ITEM_BEACON + ".itemId FROM " + TABLE_ITEM_BEACON);
+        sqlBuilder.append(" WHERE ");
+        sqlBuilder.append(" beaconId = '" + beacon.getBeaconId() + "'");
+        sqlBuilder.append(") ORDER BY " + TABLE_ITEM + ".name");
+
 		return toItems(sqlBuilder);
-		
 	}
 
     @Override
-    public Item[] itemsForSubject(Subject[] subjects) {
+    public Item[] itemsFor(Subject[] subjects) {
         StringBuilder sqlBuilder = new StringBuilder();
 
         sqlBuilder.append("SELECT "+ TABLE_ITEM + ".* FROM " + TABLE_ITEM);
@@ -334,13 +333,13 @@ public class NsgRepository
 	public Beacon beaconById(String beaconId) {
 		SQLiteDatabase db = getReadableDatabase();
 		
-		Cursor cursor = db.query(TABLE_BEACON, null, "beaconId=?", new String[] {beaconId }, null, null, null);
+		Cursor cursor = db.query(TABLE_BEACON, null, "id=?", new String[] {beaconId }, null, null, null);
 		
 		if(!cursor.moveToFirst()) return null;
 		
 		Beacon beacon = new Beacon();
 		
-		beacon.setBeaconId(cursor.getString(cursor.getColumnIndex("beaconId")));
+		beacon.setBeaconId(cursor.getString(cursor.getColumnIndex("id")));
 		beacon.setMajor(cursor.getInt(cursor.getColumnIndex("major")));
 		beacon.setMinor(cursor.getInt(cursor.getColumnIndex("minor")));
 				
@@ -362,7 +361,7 @@ public class NsgRepository
         while(cursor.moveToNext()) {
             Beacon beacon = new Beacon();
 
-            beacon.setBeaconId(cursor.getString(cursor.getColumnIndex("beaconId")));
+            beacon.setBeaconId(cursor.getString(cursor.getColumnIndex("id")));
             beacon.setMajor(cursor.getInt(cursor.getColumnIndex("major")));
             beacon.setMinor(cursor.getInt(cursor.getColumnIndex("minor")));
             items.add(beacon);

@@ -15,7 +15,7 @@ public class Beacon {
     public Beacon(int major, int minor) {
         this.major = major;
         this.minor = minor;
-        setBeaconId();
+        this.beaconId = composeBeaconId();
     }
 	
 	public String getBeaconId() {
@@ -50,8 +50,8 @@ public class Beacon {
         this.proximityUUID = proximityUUID;
     }
 
-    private void setBeaconId() {
-        beaconId = proximityUUID + "/" + major + "/" + minor;
+    private String composeBeaconId() {
+        return proximityUUID + "/" + major + "/" + minor;
     }
 
     @Override

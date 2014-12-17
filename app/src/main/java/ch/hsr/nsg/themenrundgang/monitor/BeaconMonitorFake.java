@@ -1,17 +1,16 @@
 package ch.hsr.nsg.themenrundgang.monitor;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+
 import ch.hsr.nsg.themenrundgang.model.Beacon;
 
 public class BeaconMonitorFake implements BeaconMonitor {
@@ -142,7 +141,6 @@ public class BeaconMonitorFake implements BeaconMonitor {
         @Override
         public void onServiceConnected(ComponentName name, IBinder serviceBinder) {
 
-            Toast.makeText(context, "Connected", Toast.LENGTH_SHORT).show();
             if (BeaconMonitorFake.simulator == null)
                 BeaconMonitorFake.simulator = ((BeaconScannerFake.BeaconScannerBinder) serviceBinder).getScanner();
             BeaconMonitorFake.simulator.registerBeaconMonitor(BeaconMonitorFake.this);

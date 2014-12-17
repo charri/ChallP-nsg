@@ -2,6 +2,7 @@ package ch.hsr.nsg.themenrundgang.monitor;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Binder;
@@ -11,6 +12,7 @@ import javax.inject.Inject;
 
 import ch.hsr.nsg.themenrundgang.R;
 import ch.hsr.nsg.themenrundgang.dagger.InjectingService;
+import ch.hsr.nsg.themenrundgang.view.ItemsActivity;
 
 
 public class BeaconService extends InjectingService {
@@ -33,7 +35,6 @@ public class BeaconService extends InjectingService {
     public void onCreate() {
         super.onCreate();
 
-
         createScanningNotification();
     }
 
@@ -45,14 +46,16 @@ public class BeaconService extends InjectingService {
     }
 
     private void createScanningNotification() {
+        Intent activityIntent = new Intent(this, ItemsActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, activityIntent, 0);
         Notification.Builder builder = new Notification
                 .Builder(this)
                 .setTicker("Naturmuseum Beacon-Suche")
                 .setSmallIcon(R.drawable.ic_stat_device_bluetooth_searching)
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher))
                 .setContentTitle(getResources().getString(R.string.notification_perm_title))
-                .setContentText("")
-                .setContentIntent(null);
+                .setContentText(getResources().getString(R.string.notification_perm_text))
+                .setContentIntent(pendingIntent);
 
         Notification notification = builder.build();
 

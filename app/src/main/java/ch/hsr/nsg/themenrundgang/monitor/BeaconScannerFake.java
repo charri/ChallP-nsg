@@ -18,7 +18,7 @@ public class BeaconScannerFake extends Service {
     private final static int MAX_BEACONS_UPDATES_FOR_LOCATION_CHANGE = 6;
 
     private final static int MIN_NOF_BEACONS = 1;
-    private final static int MAX_NOF_BEACONS = 5;
+    private final static int MAX_NOF_BEACONS = 3;
     private final static int[] NOF_BEACONS_PER_LOCATION = {1, 3, 2, 2, 2, 4};
     private final static double ENTERED_LOCATION_WEIGHT	= 0.7;
 

@@ -23,7 +23,6 @@ import ch.hsr.nsg.themenrundgang.vm.model.UiItem;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
-
     private final ItemViewModel mViewModel;
     private final ImageLoader imageLoader;
     ArrayList<UiItem> mItems;
@@ -79,8 +78,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     }
 
     public void addItem(UiItem item) {
-        mItems.add(item);
-        notifyItemInserted(mItems.size() - 1);
+
+        for(int i=0; i < mItems.size(); i++) {
+            if (mItems.get(i).getId() == item.getId()) return;
+        }
+        mItems.add(0, item);
+        notifyItemInserted(0);
     }
 
     @Override

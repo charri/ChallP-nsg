@@ -71,16 +71,28 @@ public class ItemsFragmentBeacons extends InjectingFragment implements ItemViewM
         });
         mRecyclerView.setAdapter(mAdapter);
 
+        mViewModel.setUiItemListener(this);
+
         return rootView;
     }
 
     @Override
-    public void addItem(UiItem item) {
-        mAdapter.addItem(item);
+    public void addItem(final UiItem item) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mAdapter.addItem(item);
+            }
+        });
     }
 
     @Override
-    public void removeItem(UiItem item) {
-        mAdapter.removeItem(item);
+    public void removeItem(final UiItem item) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mAdapter.removeItem(item);
+            }
+        });
     }
 }

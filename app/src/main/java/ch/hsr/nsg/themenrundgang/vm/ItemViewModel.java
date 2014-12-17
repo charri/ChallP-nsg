@@ -13,6 +13,7 @@ import ch.hsr.nsg.themenrundgang.model.Item;
 import ch.hsr.nsg.themenrundgang.model.ItemRepository;
 import ch.hsr.nsg.themenrundgang.model.Subject;
 import ch.hsr.nsg.themenrundgang.monitor.BeaconMonitor;
+import ch.hsr.nsg.themenrundgang.monitor.MonitorReadyCallback;
 import ch.hsr.nsg.themenrundgang.monitor.MonitoringListenerCallback;
 import ch.hsr.nsg.themenrundgang.monitor.Region;
 import ch.hsr.nsg.themenrundgang.vm.model.UiItem;
@@ -36,12 +37,18 @@ public class ItemViewModel {
         this.mBeaconMonitor = beaconMonitor;
         this.mAllBeaconRegions = new ArrayList<Region>();
 
-        initializeAllBeaconRegions();
-        try {
-            startMonitoringAllRegions();
-        } catch (RemoteException e) {
+        mBeaconMonitor.connect(new MonitorReadyCallback() {
+            @Override
+            public void onServiceReady() {
+                setBeaconMonitorListener();
+                initializeAllBeaconRegions();
+                try {
+                    startMonitoringAllRegions();
+                } catch (RemoteException e) {
 
-        }
+                }
+            }
+        });
     }
 
     public void setSubjects(Subject[] subjects) {
@@ -50,11 +57,11 @@ public class ItemViewModel {
     }
 
     private void setItemsForSubjects() {
-        mItemsForSubjects = new ArrayList<Item>(Arrays.asList(itemRepository.itemsForSubject(mSubjects)));
+        mItemsForSubjects = new ArrayList<Item>(Arrays.asList(itemRepository.itemsFor(mSubjects)));
     }
 
     public void loadAllItems() {
-        Item[] items = itemRepository.itemsForSubject(mSubjects);
+        Item[] items = itemRepository.itemsFor(mSubjects);
 
         mItems = new ArrayList<UiItem>(items.length);
 
@@ -78,17 +85,45 @@ public class ItemViewModel {
         mBeaconMonitor.setMonitoringListener(new MonitoringListenerCallback() {
             @Override
             public void onEnterRegion(Region region) {
+                if (mListener == null) return;
+
                 Beacon enteredBeacon = new Beacon(region.getMajor(), region.getMinor());
-                Item[] beaconItems = itemRepository.itemsForBeacon(enteredBeacon);
+                Item[] beaconItems = itemRepository.itemsFor(enteredBeacon, mSubjects);
                 for (Item item : beaconItems) {
-                    if (mItemsForSubjects.contains(item)) // TODO change to radom id
-                        mListener.addItem(UiItem.newInstance(item, nsgApi.getImagePath(item.getId())));
+                    int randomImage = item.getRandomImage();
+                    String imageUrl = randomImage == -1 ? null : nsgApi.getImagePath(randomImage);
+                    UiItem uiItem = UiItem.newInstance(item, imageUrl);
+
+                    mListener.addItem(uiItem);
+
+
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
             @Override
             public void onExitRegion(Region region) {
-                //mAdapter.removeItem(null);
+                if (mListener == null) return;
+
+                Beacon exitedBeacon = new Beacon(region.getMajor(), region.getMinor());
+                Item[] beaconItems = itemRepository.itemsFor(exitedBeacon);
+                for (Item item : beaconItems) {
+
+                    String imagePath = nsgApi.getImagePath(item.getRandomImage());
+                    UiItem uiItem = UiItem.newInstance(item, imagePath);
+
+                    mListener.removeItem(uiItem);
+
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
     }

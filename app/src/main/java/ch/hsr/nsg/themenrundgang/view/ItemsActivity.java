@@ -58,6 +58,11 @@ public class ItemsActivity extends InjectingFragmentActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+
+    }
+
 
     @OnClick(R.id.info_icon)
     public void OnIconClick() {

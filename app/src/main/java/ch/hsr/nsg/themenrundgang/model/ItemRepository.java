@@ -3,11 +3,11 @@ package ch.hsr.nsg.themenrundgang.model;
 public interface ItemRepository {
 	void insertOrUpdate(Item item);
 	
-	Item[] itemsForBeacon(Beacon beacon);
-	
-	Item[] itemsForSubject(Beacon[] beacons, Subject[] subject);
+	Item[] itemsFor(Beacon beacon);
 
-    Item[] itemsForSubject(Subject[] subjects);
+    Item[] itemsFor(Beacon beacon, Subject[] subject);
+
+    Item[] itemsFor(Subject[] subjects);
 	
 	Item itemById(int id);
 	

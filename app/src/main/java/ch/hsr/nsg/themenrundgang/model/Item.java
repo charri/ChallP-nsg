@@ -53,4 +53,12 @@ public class Item {
         if(images == null || images.length == 0) return -1;
         return images[new Random().nextInt(images.length)];
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (getClass() == other.getClass()) {
+            return this.id == ((Item) other).id;
+        }
+        return false;
+    }
 }
