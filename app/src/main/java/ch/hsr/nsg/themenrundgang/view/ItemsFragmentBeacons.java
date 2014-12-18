@@ -2,7 +2,12 @@ package ch.hsr.nsg.themenrundgang.view;
 
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -18,13 +23,14 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import ch.hsr.nsg.themenrundgang.R;
 import ch.hsr.nsg.themenrundgang.dagger.InjectingFragment;
+import ch.hsr.nsg.themenrundgang.monitor.BeaconService;
 import ch.hsr.nsg.themenrundgang.ui.DividerItemDecoration;
 import ch.hsr.nsg.themenrundgang.view.adapter.ItemAdapter;
 import ch.hsr.nsg.themenrundgang.vm.ItemViewModel;
 import ch.hsr.nsg.themenrundgang.vm.model.UiItem;
 import ch.hsr.nsg.themenrundgang.vm.model.UiSubject;
 
-public class ItemsFragmentBeacons extends InjectingFragment implements ItemViewModel.UiItemListener {
+public class ItemsFragmentBeacons extends InjectingFragment implements BeaconService.UiItemListener {
 
     private final static String EXTRA_SUBJECTS = ItemsFragmentBeacons.class.getName() + ":subjects";
 
@@ -43,6 +49,10 @@ public class ItemsFragmentBeacons extends InjectingFragment implements ItemViewM
     UiSubject[] mSubjects;
 
     ItemAdapter mAdapter;
+
+    private BeaconService mBeaconService;
+    private boolean mIsBound = false;
+    private BeaconServiceConnection mServiceConnection;
 
     @Inject
     ItemViewModel mViewModel;
@@ -72,16 +82,35 @@ public class ItemsFragmentBeacons extends InjectingFragment implements ItemViewM
         });
         mRecyclerView.setAdapter(mAdapter);
 
-        mViewModel.setUiItemListener(this);
+        Activity itemsActivity = getActivity();
+        Intent intent = new Intent(itemsActivity, BeaconService.class);
+        mServiceConnection = new BeaconServiceConnection();
+        itemsActivity.bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
 
         return rootView;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        if (mIsBound)
+            mBeaconService.toggleBeaconUpdates(true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (mIsBound)
+            mBeaconService.toggleBeaconUpdates(false);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
 
-        mViewModel.stopMonitor();
+        getActivity().unbindService(mServiceConnection);
     }
 
     @Override
@@ -107,6 +136,24 @@ public class ItemsFragmentBeacons extends InjectingFragment implements ItemViewM
                     mAdapter.removeItem(item);
                 }
             });
+        }
+    }
+
+
+    private class BeaconServiceConnection implements ServiceConnection {
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder serviceBinder) {
+            BeaconService.LocalBinder binder = (BeaconService.LocalBinder) serviceBinder;
+            mBeaconService = binder.getService();
+            mBeaconService.setUiItemListener(ItemsFragmentBeacons.this);
+            mIsBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            mBeaconService.setUiItemListener(null);
+            mIsBound = false;
         }
     }
 }

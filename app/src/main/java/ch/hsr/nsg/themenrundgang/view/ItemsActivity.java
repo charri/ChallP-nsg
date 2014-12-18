@@ -15,7 +15,6 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 import ch.hsr.nsg.themenrundgang.R;
 import ch.hsr.nsg.themenrundgang.dagger.InjectingFragmentActivity;
-import ch.hsr.nsg.themenrundgang.monitor.BeaconService;
 import ch.hsr.nsg.themenrundgang.ui.SlidingTabLayout;
 import ch.hsr.nsg.themenrundgang.vm.model.UiSubject;
 
@@ -51,8 +50,7 @@ public class ItemsActivity extends InjectingFragmentActivity {
 
         setContentView(R.layout.activity_items);
 
-
-        Parcelable[] ps =getIntent().getParcelableArrayExtra(EXTRA_SUBJECTS);
+        Parcelable[] ps = getIntent().getParcelableArrayExtra(EXTRA_SUBJECTS);
         mSubjects = new UiSubject[ps.length];
         System.arraycopy(ps, 0, mSubjects, 0, ps.length);
 
@@ -60,17 +58,13 @@ public class ItemsActivity extends InjectingFragmentActivity {
         mViewPager.setAdapter(mAdapter);
         tabLayout.setViewPager(mViewPager);
         tabLayout.setDividerColors(Color.TRANSPARENT);
-
-        startService(new Intent(this, BeaconService.class));
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        stopService(new Intent(this, BeaconService.class));
+        finish();
     }
-
 
     @OnClick(R.id.info_icon)
     public void OnIconClick() {

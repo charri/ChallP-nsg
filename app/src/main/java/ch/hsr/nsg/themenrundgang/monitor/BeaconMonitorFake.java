@@ -43,7 +43,7 @@ public class BeaconMonitorFake implements BeaconMonitor {
         serviceConnection = new ScannerServiceConnection(callback);
         boolean isBound = context.bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
 		/*if (isBound) {
-			
+
 		}*/
     }
 
@@ -148,8 +148,6 @@ public class BeaconMonitorFake implements BeaconMonitor {
         }
 
         @Override
-        public void onServiceDisconnected(ComponentName name) {
-            //this.service.unregisterBeaconMonitor(BeaconMonitorFake.this);
-        }
+        public void onServiceDisconnected(ComponentName name) { }
     }
 }

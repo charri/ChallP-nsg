@@ -7,7 +7,6 @@ import ch.hsr.nsg.themenrundgang.model.BeaconRepository;
 import ch.hsr.nsg.themenrundgang.model.ItemRepository;
 import ch.hsr.nsg.themenrundgang.model.Repositories;
 import ch.hsr.nsg.themenrundgang.model.SubjectRepository;
-import ch.hsr.nsg.themenrundgang.monitor.BeaconMonitor;
 import ch.hsr.nsg.themenrundgang.monitor.BeaconService;
 import ch.hsr.nsg.themenrundgang.view.DetailActivity;
 import ch.hsr.nsg.themenrundgang.view.DetailImageActivity;
@@ -70,8 +69,8 @@ public class ViewModelModule {
     }
 
     @Provides @Singleton
-    ItemViewModel provideItemViewModel(NsgApi nsgApi, ItemRepository itemRepo, BeaconRepository beaconRepo, BeaconMonitor beaconMonitor) {
-        return new ItemViewModel(nsgApi, itemRepo, beaconRepo, beaconMonitor);
+    ItemViewModel provideItemViewModel(NsgApi nsgApi, ItemRepository itemRepo, BeaconRepository beaconRepo) {
+        return new ItemViewModel(nsgApi, itemRepo, beaconRepo);
     }
 
 }
