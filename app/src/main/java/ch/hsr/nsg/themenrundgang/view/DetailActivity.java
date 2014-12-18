@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
@@ -20,9 +21,12 @@ import android.widget.Toolbar;
 import com.joanzapata.android.iconify.IconDrawable;
 import com.joanzapata.android.iconify.Iconify;
 
+import java.util.Locale;
+
 import javax.inject.Inject;
 
 import butterknife.InjectView;
+import butterknife.OnClick;
 import butterknife.OnPageChange;
 import ch.hsr.nsg.themenrundgang.R;
 import ch.hsr.nsg.themenrundgang.dagger.InjectingFragmentActivity;
@@ -62,6 +66,11 @@ public class DetailActivity extends InjectingFragmentActivity implements ImageFr
     @InjectView(R.id.imageContainer)
     View mImageContainer;
 
+    @InjectView(R.id.btnSpeak)
+    TextView mMenuSpeak;
+
+    TextToSpeech mSpeach;
+
     public static Intent getIntent(Context context, Item item) {
         Intent intent = new Intent(context, DetailActivity.class);
         intent.putExtra(EXTRA_ITEM, item.getId());
@@ -75,6 +84,37 @@ public class DetailActivity extends InjectingFragmentActivity implements ImageFr
 
         if(!setupViewModel()) return;
         setupUi();
+
+        mSpeach=new TextToSpeech(getApplicationContext(),
+            new TextToSpeech.OnInitListener() {
+                @Override
+                public void onInit(int status) {
+                    if(status != TextToSpeech.ERROR){
+                        mSpeach.setLanguage(Locale.GERMAN);
+                    }
+                }
+        });
+
+        mMenuSpeak.setCompoundDrawables(null, null, new IconDrawable(this, Iconify.IconValue.fa_volume_up)
+                .colorRes(android.R.color.white)
+                .actionBarSize(), null);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if(mSpeach !=null){
+            mSpeach.stop();
+            mSpeach.shutdown();
+        }
+    }
+
+    @OnClick(R.id.btnSpeak)
+    public void speakContent() {
+        String toSpeak = mViewModel.getTitleText() + ".\n" + mViewModel.getContentText();
+        mSpeach.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null, String.valueOf(mViewModel.getItem().getId()));
+
     }
 
     private boolean setupViewModel() {
