@@ -23,12 +23,12 @@ public class ItemsActivity extends InjectingFragmentActivity {
     @InjectView(R.id.pager)
     ViewPager mViewPager;
 
-
     @InjectView(R.id.info_card)
     View mInfoCard;
 
     @InjectView(R.id.sliding_tabs)
     SlidingTabLayout tabLayout;
+
 
     UiSubject[] mSubjects;
 
@@ -58,6 +58,8 @@ public class ItemsActivity extends InjectingFragmentActivity {
         mViewPager.setAdapter(mAdapter);
         tabLayout.setViewPager(mViewPager);
         tabLayout.setDividerColors(Color.TRANSPARENT);
+
+
     }
 
     @Override

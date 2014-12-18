@@ -60,7 +60,7 @@ public class ItemViewModel {
     }
 
     public Item[] getItemsForSelectedSubjectsAndBeacon(int major, int minor) {
-        Beacon beacon = new Beacon(major, minor);
+        Beacon beacon = new Beacon(major, minor); // beacon id can be initialised by major, minor
         return itemRepository.itemsFor(beacon, mSubjects);
     }
 

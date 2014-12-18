@@ -139,6 +139,19 @@ public class ItemsFragmentBeacons extends InjectingFragment implements BeaconSer
         }
     }
 
+    @Override
+    public void scrollTop() {
+        Activity activity = getActivity();
+        if (activity != null) {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mRecyclerView.scrollToPosition(0);
+                }
+            });
+        }
+    }
+
 
     private class BeaconServiceConnection implements ServiceConnection {
 
@@ -148,6 +161,8 @@ public class ItemsFragmentBeacons extends InjectingFragment implements BeaconSer
             mBeaconService = binder.getService();
             mBeaconService.setUiItemListener(ItemsFragmentBeacons.this);
             mIsBound = true;
+
+            mBeaconService.setSubjects(mSubjects);
         }
 
         @Override

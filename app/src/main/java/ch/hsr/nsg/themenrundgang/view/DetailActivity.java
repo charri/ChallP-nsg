@@ -12,11 +12,13 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.view.ViewManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
+
+import com.joanzapata.android.iconify.IconDrawable;
+import com.joanzapata.android.iconify.Iconify;
 
 import javax.inject.Inject;
 
@@ -57,6 +59,9 @@ public class DetailActivity extends InjectingFragmentActivity implements ImageFr
     @InjectView(R.id.content)
     TextView mContent;
 
+    @InjectView(R.id.imageContainer)
+    View mImageContainer;
+
     public static Intent getIntent(Context context, Item item) {
         Intent intent = new Intent(context, DetailActivity.class);
         intent.putExtra(EXTRA_ITEM, item.getId());
@@ -91,11 +96,21 @@ public class DetailActivity extends InjectingFragmentActivity implements ImageFr
         setupText();
         setupViewPager();
         setupImageCaption();
+
+        mToolbar.setNavigationIcon(new IconDrawable(this, Iconify.IconValue.fa_arrow_left)
+                .colorRes(android.R.color.white)
+                .actionBarSize());
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void setupViewPager() {
         if(mViewModel.getImageLength() == 0) {
-            ((ViewManager)mPager.getParent()).removeView(mPager);
+            mImageContainer.setVisibility(View.GONE);
             return;
         }
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
@@ -126,7 +141,8 @@ public class DetailActivity extends InjectingFragmentActivity implements ImageFr
 
     private void setupImageCaption() {
         if(mViewModel.getImageLength() <= 1) {
-            ((ViewManager)mImageCaption.getParent()).removeView(mImageCaption);
+            mImageCaption.setVisibility(View.GONE);
+            //((ViewManager)mImageCaption.getParent()).removeView(mImageCaption);
             return;
         }
         setImageCaption(1);

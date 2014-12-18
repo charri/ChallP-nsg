@@ -30,12 +30,27 @@ public class TutorialFragmentSubjects extends TutorialFragment {
         Uri videoUri = Uri.parse("android.resource://" + getActivity().getPackageName() + "/raw/movie_subjects");
 
         video.setVideoURI(videoUri);
-        video.start();
+
         video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
-                mp.setLooping(true);
+            video.seekTo(0);
+            video.start();
+            mp.setLooping(true);
             }
         });
     }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+
+        if(hidden && video != null) {
+            video.pause();
+        } else if(!hidden) {
+            video.seekTo(0);
+            video.start();
+        }
+    }
+
 }

@@ -8,6 +8,7 @@
         android:minSdkVersion="21"
         android:targetSdkVersion="21" />
 
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -39,7 +40,9 @@
 
         <service android:name=".monitor.BeaconService" />
         <activity android:name=".view.TestActivity" />
-        <activity android:name=".view.DetailActivity" />
+        <activity android:name=".view.DetailActivity" android:parentActivityName=".view.ItemsActivity">
+
+        </activity>
         <activity android:name=".view.DetailImageActivity" />
         <activity android:name=".view.TutorialActivity" />
         <activity android:name=".view.SplashActivity"  android:noHistory="true">
@@ -48,8 +51,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.ItemsActivity" />
-        <activity android:name=".view.SubjectsActivity" />
+        <activity android:name=".view.ItemsActivity" android:parentActivityName=".view.SubjectsActivity" />
+        <activity android:name=".view.SubjectsActivity"  />
     </application>
 
 </manifest>
