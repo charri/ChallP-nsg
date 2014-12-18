@@ -40,12 +40,11 @@
             android:layout_gravity="bottom|center_horizontal"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="300dp"
-                android:src="@drawable/frame_nexus"
-                android:scaleType="fitCenter"
-                />
+            <VideoView
+                android:layout_width="300dp"
+                android:id="@+id/video"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_height="300dp" />
 
         </FrameLayout>
 
