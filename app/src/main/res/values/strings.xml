@@ -44,4 +44,6 @@
     <string name="detail_activity_item_not_found_msg">Es konnten keine weiteren Informationen zu diesem Exponat gefunden werden.</string>
     <string name="detail_activity_unknown_error_msg">Ein unbekannter Fehler ist aufgetreten.</string>
     <string name="image_caption_image">Bild %1$d von %2$d</string>
+
+    <string name="items_move">Aktuell sind in der Nähe keine Exponate mit Beacons bestückt.</string>
 </resources>

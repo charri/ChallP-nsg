@@ -31,7 +31,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         this.mOnClickListener = onClickListener;
     }
 
+    public void setItemCountChangeListener(ItemCountChangeListener onClickListener) {
+        this.mOnCountChangeLister = onClickListener;
+    }
+
     private OnClickListener mOnClickListener;
+    private ItemCountChangeListener mOnCountChangeLister;
 
     @Inject
     public ItemAdapter(ItemViewModel viewModel, ImageLoader imageLoader) {
@@ -75,6 +80,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
             mItems.remove(i);
             notifyItemRemoved(i);
         }
+
+        if(mOnClickListener != null)
+            mOnCountChangeLister.onChange(mItems.size());
     }
 
     public void addItem(UiItem item) {
@@ -84,6 +92,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         }
         mItems.add(0, item);
         notifyItemInserted(0);
+        if(mOnClickListener != null)
+            mOnCountChangeLister.onChange(mItems.size());
     }
 
     @Override
@@ -105,5 +115,9 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
     public interface OnClickListener {
         void onClick(View view, UiItem item);
+    }
+
+    public interface ItemCountChangeListener {
+        void onChange(int count);
     }
 }

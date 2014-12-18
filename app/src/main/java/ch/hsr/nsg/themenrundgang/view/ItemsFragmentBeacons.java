@@ -46,6 +46,9 @@ public class ItemsFragmentBeacons extends InjectingFragment implements BeaconSer
     @InjectView(R.id.recyler_items)
     RecyclerView mRecyclerView;
 
+    @InjectView(R.id.list_empty)
+    View mEmptyList;
+
     UiSubject[] mSubjects;
 
     ItemAdapter mAdapter;
@@ -60,7 +63,7 @@ public class ItemsFragmentBeacons extends InjectingFragment implements BeaconSer
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_items_all, container, false);
+        ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_items_beacon, container, false);
 
         ButterKnife.inject(this, rootView);
 
@@ -78,6 +81,12 @@ public class ItemsFragmentBeacons extends InjectingFragment implements BeaconSer
             @Override
             public void onClick(View view, UiItem item) {
                 startActivity(DetailActivity.getIntent(getActivity(), item));
+            }
+        });
+        mAdapter.setItemCountChangeListener(new ItemAdapter.ItemCountChangeListener() {
+            @Override
+            public void onChange(int count) {
+                mEmptyList.setVisibility(count == 0 ? View.VISIBLE : View.GONE);
             }
         });
         mRecyclerView.setAdapter(mAdapter);
