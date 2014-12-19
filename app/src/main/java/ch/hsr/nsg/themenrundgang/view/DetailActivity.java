@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -82,7 +83,10 @@ public class DetailActivity extends InjectingFragmentActivity implements ImageFr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(!setupViewModel()) return;
+        Log.i("DetailAcitivty", "Created " + findItemId(getIntent()));
+
+
+        if (!setupViewModel()) return;
         setupUi();
 
         mSpeach=new TextToSpeech(getApplicationContext(),
@@ -98,6 +102,13 @@ public class DetailActivity extends InjectingFragmentActivity implements ImageFr
         mMenuSpeak.setCompoundDrawables(null, null, new IconDrawable(this, Iconify.IconValue.fa_volume_up)
                 .colorRes(android.R.color.white)
                 .actionBarSize(), null);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Log.i("DetailAcitivty", "Resumed " + findItemId(getIntent()));
     }
 
     @Override

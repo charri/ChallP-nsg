@@ -2,6 +2,7 @@ package ch.hsr.nsg.themenrundgang.monitor;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -16,6 +17,7 @@ import javax.inject.Inject;
 import ch.hsr.nsg.themenrundgang.R;
 import ch.hsr.nsg.themenrundgang.dagger.InjectingService;
 import ch.hsr.nsg.themenrundgang.model.Item;
+import ch.hsr.nsg.themenrundgang.view.DetailActivity;
 import ch.hsr.nsg.themenrundgang.vm.ItemViewModel;
 import ch.hsr.nsg.themenrundgang.vm.model.UiItem;
 import ch.hsr.nsg.themenrundgang.vm.model.UiSubject;
@@ -160,6 +162,13 @@ public class BeaconService extends InjectingService {
                         item.getName()
                 );
 
+
+                Uri soundUri = (item.getId() == 2) ? SOUNDS[2] : SOUNDS[0];
+
+
+
+                Intent intent = DetailActivity.getIntent(BeaconService.this, item);
+                PendingIntent pendingIntent = PendingIntent.getActivity(BeaconService.this, beaconUid, intent, PendingIntent.FLAG_UPDATE_CURRENT);
                 Notification.Builder builder = new Notification
                         .Builder(BeaconService.this)
                         .setTicker("Naturmuseum Beacon-Suche")
@@ -167,8 +176,9 @@ public class BeaconService extends InjectingService {
                         .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher))
                         .setContentTitle(getResources().getString(R.string.notification_beacon_title))
                         .setContentText(content)
+                        .setContentIntent(pendingIntent)
                         .setVibrate(new long[]{200})
-                        .setSound(SOUNDS[++pos % SOUNDS.length]);
+                        .setSound(soundUri);
 
                 Notification notification = builder.build();
 
