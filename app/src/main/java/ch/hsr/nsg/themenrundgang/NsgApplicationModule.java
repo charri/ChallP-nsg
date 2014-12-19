@@ -20,7 +20,7 @@ import ch.hsr.nsg.themenrundgang.model.ItemRepository;
 import ch.hsr.nsg.themenrundgang.model.Repositories;
 import ch.hsr.nsg.themenrundgang.model.SubjectRepository;
 import ch.hsr.nsg.themenrundgang.monitor.BeaconMonitor;
-import ch.hsr.nsg.themenrundgang.monitor.BeaconMonitorEstimote;
+import ch.hsr.nsg.themenrundgang.monitor.BeaconMonitorFake;
 import dagger.Module;
 import dagger.Provides;
 
@@ -42,7 +42,7 @@ public class NsgApplicationModule {
 
     @Provides @Singleton
     BeaconMonitor provideBeaconMonitor(@Application Context context) {
-        return new BeaconMonitorEstimote(context);
+        return new BeaconMonitorFake(context);
     }
 
 	@Provides @Singleton

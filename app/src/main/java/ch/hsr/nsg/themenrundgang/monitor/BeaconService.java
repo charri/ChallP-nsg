@@ -163,9 +163,7 @@ public class BeaconService extends InjectingService {
                 );
 
 
-                Uri soundUri = (item.getId() == 2) ? SOUNDS[2] : SOUNDS[0];
-
-
+                //Uri soundUri = (item.getId() == 2) ? SOUNDS[2] : SOUNDS[0];
 
                 Intent intent = DetailActivity.getIntent(BeaconService.this, item);
                 PendingIntent pendingIntent = PendingIntent.getActivity(BeaconService.this, beaconUid, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -178,7 +176,7 @@ public class BeaconService extends InjectingService {
                         .setContentText(content)
                         .setContentIntent(pendingIntent)
                         .setVibrate(new long[]{200})
-                        .setSound(soundUri);
+                        .setSound(SOUNDS[++pos % SOUNDS.length]);
 
                 Notification notification = builder.build();
 

@@ -11,14 +11,14 @@ import java.util.List;
 import ch.hsr.nsg.themenrundgang.model.Beacon;
 
 public class BeaconScannerFake extends Service {
-    private final static int SCAN_INTERVALL = 2500;
+    private final static int SCAN_INTERVALL = 4000;
     private final static int MIN_SCANS_FOR_BEACONS_UPDATE = 1;
     private final static int MAX_SCANS_FOR_BEACONS_UPDATE = 2;
-    private final static int MIN_BEACONS_UPDATES_FOR_LOCATION_CHANGE = 3;
-    private final static int MAX_BEACONS_UPDATES_FOR_LOCATION_CHANGE = 6;
+    private final static int MIN_BEACONS_UPDATES_FOR_LOCATION_CHANGE = 2;
+    private final static int MAX_BEACONS_UPDATES_FOR_LOCATION_CHANGE = 4;
 
     private final static int MIN_NOF_BEACONS = 1;
-    private final static int MAX_NOF_BEACONS = 3;
+    private final static int MAX_NOF_BEACONS = 4;
     private final static int[] NOF_BEACONS_PER_LOCATION = {1, 3, 2, 2, 2, 4};
     private final static double ENTERED_LOCATION_WEIGHT	= 0.7;
 
